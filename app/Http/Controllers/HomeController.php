@@ -60,7 +60,6 @@ class HomeController extends Controller
 
     public function ShowProperty($id){
         $property = Property::findOrFail($id);
-        $statistics = SellProperty::get();
         return view('buyer.show',compact('property'));
     }
 
@@ -74,48 +73,46 @@ class HomeController extends Controller
     public function Statistics(Request $request){
         $statement = DB::statement("SET @rank=0;");
         $min = DB::select(DB::raw('
-        SELECT MIN(total_value) as minimum
-        FROM tbl_appraisal AS a
-        JOIN tbl_appraise_property AS ap ON a.id_appraisal = ap.id_appraisal 
+        SELECT MIN(price) as minimum
+        FROM tbl_sell_property AS sp
+        JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
         JOIN tbl_property AS p ON a.id_property = p.id_property
         JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
-        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" ORDER BY ap.create_date DESC
+        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'"
         '));
         $current = DB::select(DB::raw('
-        SELECT total_value as current
-        FROM tbl_appraisal AS a
-        JOIN tbl_appraise_property AS ap ON a.id_appraisal = ap.id_appraisal 
+        SELECT price as current
+        FROM tbl_sell_property AS sp
+        JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
         JOIN tbl_property AS p ON a.id_property = p.id_property
         JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
-        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.id_property = "'.$request->property.'" ORDER BY ap.create_date DESC
+        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.id_property = "'.$request->property.'"
         '));
         $max = DB::select(DB::raw('
-        SELECT MAX(total_value) as maximum
-        FROM tbl_appraisal AS a
-        JOIN tbl_appraise_property AS ap ON a.id_appraisal = ap.id_appraisal 
+        SELECT MAX(price) as maximum
+        FROM tbl_sell_property AS sp
+        JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
         JOIN tbl_property AS p ON a.id_property = p.id_property
         JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
-        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" ORDER BY ap.create_date DESC
+        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'"
         '));
         $rank = DB::select(DB::raw('
             SELECT @rank:=@rank+1 as rank
-            FROM tbl_appraisal AS a
-            JOIN tbl_appraise_property AS ap ON a.id_appraisal = ap.id_appraisal 
+            FROM tbl_sell_property AS sp
+            JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
             JOIN tbl_property AS p ON a.id_property = p.id_property
             JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
             WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.id_property = "'.$request->property.'"
-            GROUP BY p.id_property,ap.create_date,ap.lot_value
-            ORDER BY ap.create_date DESC, ap.lot_value DESC
+            GROUP BY p.id_property
         '));
         $all = DB::select(DB::raw('
             SELECT COUNT(p.id_property) as total
-            FROM tbl_appraisal AS a
-            JOIN tbl_appraise_property AS ap ON a.id_appraisal = ap.id_appraisal 
+            FROM tbl_sell_property AS sp
+            JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
             JOIN tbl_property AS p ON a.id_property = p.id_property
             JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
             WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'"
-            GROUP BY p.id_property,ap.create_date,ap.lot_value
-            ORDER BY ap.create_date DESC, ap.lot_value DESC
+            GROUP BY p.id_property
         '));
         return response()->json(['min'=>$min,'current'=>$current,'max'=>$max,'rank'=>$rank,'all'=>$all]);
     }

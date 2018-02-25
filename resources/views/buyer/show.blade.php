@@ -112,7 +112,6 @@
                 },
                 dataType: "JSON",
                 success:function(data){
-                    console.log(data.min[0]);
                     var ctx = document.getElementById('statistics').getContext('2d');
                     var chart = new Chart(ctx, {
                         // The type of chart we want to create
