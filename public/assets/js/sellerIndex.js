@@ -154,12 +154,26 @@ $('#formRequestAppraisal').validator().on('submit', function (e) {
 })
 
 $(document).on('click','.btnPublishProperty',function(){
-    var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text();
+    $.ajax({
+        type: "POST",
+        url: "/get_appraised_value",
+        data: {id: id},
+        success: function(data){
+            $('#appraisedValue').html(data);
+        },
+        error: function(data){
+            alert("error!");
+        }
+    });
     $('#publishId').val(id);    
 });
 
-$(document).on('click','#btnPublish',function(){
+$('#btnPublish').validator().on('submit',function(e){
+    e.preventDefault();
     var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    var $btnPublish= $('#btnPublish');
+    $btnPublish.button('loading');
     $.ajax({
         url: "/publish_property",
         type:"POST",
@@ -169,9 +183,11 @@ $(document).on('click','#btnPublish',function(){
                   return xhr.setRequestHeader('X-CSRF-TOKEN', token);
             }
         },
-        data: $('#formPublish').serialize() ,
+        data: $('#formPublish').serialize(),
         success:function(data){
-            $('#propertyTable').html(data);
+            $('#propertyTable').html(data);  
+            $('#modalRequestAppraisal').modal('hide');  
+            $btnPublish.button('reset');                                
         },error:function(data){ 
             alert("Error!");
         }

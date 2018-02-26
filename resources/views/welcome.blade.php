@@ -19,7 +19,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-9">
-        <div class="row">
+        <div class="row" id="searchResults">
             @foreach($properties as $property)
                 <div class="col-md-6">
                     <div class="box box-primary">
@@ -29,10 +29,11 @@
                             </center>
                         </div>
                         <div class="box-body">
-                            <label for="">{{$property->appraisal->Property->property_name}}</label>
-                            <label>Area: {{number_format($property->appraisal->Property->lot_area)}} m<sup>2</sup></label>
+                            <label>{{$property->property_name}}</label>
+                            <label>Property Type: {{($property->property_type) ? "House and Lot" : "Lot"}}</label>
+                            <label>Area: {{number_format($property->lot_area)}} sq. m.</sup></label>
                             <label>Price: PhP {{number_format($property->price,2)}}</label>
-                            <a href="/show_property/{{$property->appraisal->Property->id_property}}" class="btn btn-success btn-block">See Property</a>
+                            <a href="/show_property/{{$property->id_property}}" class="btn btn-success btn-block">See Property</a>
                         </div>
                     </div>
                 </div>
@@ -40,10 +41,10 @@
         </div>
     </div>
     <div class="col-md-3">
-        <form>
+        <form id="formSearch">
             <div class="form-group">
                 <label for="region">Region:</label>
-                <select class="form-control" id="region">
+                <select class="form-control" name="region" id="region">
                     @foreach($regions as $region)
                         <option value="{{$region->id_region}}">{{$region->region_description}} ({{$region->region_code}})</option>
                     @endforeach
@@ -51,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label for="province">Province:</label>
-                <select class="form-control" id="province">
+                <select class="form-control" name="province" id="province">
                     @foreach($provinces as $province)
                         <option value="{{$province->id_province}}">{{$province->province_description}} ({{$province->province_code}})</option>
                     @endforeach
@@ -59,7 +60,7 @@
             </div>
             <div class="form-group">
                 <label for="city">City/Municipality:</label>
-                <select class="form-control" id="city">
+                <select class="form-control" name="city" id="city">
                     @foreach($cities as $city)
                         <option value="{{$city->id_city}}">{{$city->city_description}} ({{$city->city_code}})</option>
                     @endforeach
@@ -67,7 +68,7 @@
             </div>
             <div class="form-group">
                 <label for="barangay">Barangay:</label>
-                <select class="form-control" id="barangay">
+                <select class="form-control" name="barangay" id="barangay">
                     @foreach($barangays as $barangay)
                         <option value="{{$barangay->id_barangay}}">{{$barangay->barangay_description}} ({{$barangay->barangay_code}})</option>
                     @endforeach
@@ -75,22 +76,24 @@
             </div>
             <div class="form-group">
                 <label for="model">Property Type:</label>
-                <select class="form-control" id="model">
-                    @foreach($models as $model)
-                        <option value="{{$model->id_house_model}}">{{$model->house_model}}</option>
-                    @endforeach
+                <select class="form-control" name="model" id="model">
+                    <option value = "0">Lot</option>
+                    <option value = "1">House and Lot</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="budget">Minimum Budget:</label>
-                <input type="text" class="form-control" id="minbudget">
+                <input type="text" class="form-control" name="minbudget" id="minbudget">
             </div>
             <div class="form-group">
                 <label for="budget">Maximum Budget:</label>
-                <input type="text" class="form-control" id="maxbudget">
+                <input type="text" class="form-control" name="maxbudget" id="maxbudget">
             </div>
-            <button type="submit" class="btn btn-success btn-block">Find Property </button>
+            <button type="submit" id="search" class="btn btn-success btn-block">Find Property </button>
         </form>
+    </div>
+    <div id="loading" class="overlay hidden">
+        <i class="fa fa-refresh fa-spin"></i>
     </div>
 </div>
 @stop

@@ -22,9 +22,12 @@ Route::post("/change_city","HomeController@ChangeCity");
 Route::get("/show_property/{id}","HomeController@ShowProperty");
 Route::post("/property_count","HomeController@PropertyCount");
 Route::post("/get_statistics","HomeController@Statistics");
+Route::post("/get_appraised_value","HomeController@AppraisedValue");
 Route::get('/appraised_property', function(){
     return view('appraiser.appraised');
 });
+
+Route::post("/get_search","HomeController@GetSearch");
 
 Route::auth();
 

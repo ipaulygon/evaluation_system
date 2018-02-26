@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use DB;
 use Carbon;
 use Hash;
@@ -18,6 +19,7 @@ class sellerController extends Controller
 {
     public function index(){
     	$properties = Property::where('ind_deleted', 0)
+            ->where('id_seller',Auth::user()->seller->id_seller)
             ->orderBy('property_name', 'asc')
             ->get();
         $regions = Region::where('ind_deleted',0)->orderBy('region_code')->get();
@@ -26,6 +28,7 @@ class sellerController extends Controller
 
     public function getProperties(){
         return Property::where('ind_deleted', 0)
+            ->where('id_seller',Auth::user()->seller->id_seller)
             ->orderBy('property_name', 'asc')
             ->get();
     }
@@ -42,7 +45,6 @@ class sellerController extends Controller
                 'remarks' => $request->remarks,
                 'counter' => 0
             ]);
-
             $properties = $this->getProperties();
             DB::commit();
             return view('seller.Table.propertyTable', compact('properties'));

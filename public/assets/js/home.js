@@ -87,3 +87,26 @@ $(document).on('change','#city',function(){
         }
     });
 });
+
+$('#formSearch').on('submit',function(e){
+    e.preventDefault();
+    $('#loading').removeClass('hidden');
+    $.ajax({
+        url: "/get_search",
+        type:"POST",
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        data: $('#formSearch').serialize(),
+        success:function(data){
+            console.log(data);
+            $('#searchResults').html(data);  
+            $('#loading').addClass('hidden');                              
+        },error:function(data){ 
+            alert("Error!");
+        }
+    });
+});

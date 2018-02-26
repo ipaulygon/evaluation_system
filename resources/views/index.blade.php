@@ -61,14 +61,14 @@
       <div class="container">
         @yield('content')
       </div>
+      <footer class="footer">
+        <div class="container">
+          <span class="text-muted">Copyright &copy; Evaluation System 2018</span>
+        </div>
+      </footer>
 
     </body>
 
-    <!-- <footer class="footer">
-      <div class="container">
-        <span class="text-muted">Copyright &copy; eValuation System 2017</span>
-      </div>
-    </footer> -->
     
 
     <script src="{{ URL::asset('assets/jquery/jquery.min.js') }}"></script>

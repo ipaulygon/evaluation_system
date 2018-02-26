@@ -55,7 +55,6 @@
                                         <td class="appraisal_status">
                                             <?php
                                                 $status = null;
-                                               
                                                 if($appraisal->appraisal_status == 0){$status = "Available for Appraisal";}
                                                 if($appraisal->appraisal_status == 1){$status = "Requested for Appraisal";}
                                                 if($appraisal->appraisal_status == 2){$status = "Appraisal Completed";}
@@ -70,12 +69,14 @@
                                         </td>
                                          <td>
                                             <div class="btn-group">
+                                                @if($appraisal->appraisal_status==1)
                                                     <a class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" href="/appraise_property/{{$appraisal->id_appraisal}}" title="Appraise">
                                                         APPRAISE
                                                     </a>
                                                     <button type="button" class="btn btn-sm btn-default btnDeleteProperty" data-toggle="tooltip" title="Delete">
                                                         REJECT
                                                     </button>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

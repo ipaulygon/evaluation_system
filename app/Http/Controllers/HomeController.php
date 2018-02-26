@@ -12,6 +12,7 @@ use App\Models\Province;
 use App\Models\City;
 use App\Models\Barangay;
 use App\Models\HouseModel;
+use App\Models\AppraiseProperty;
 use App\Models\Property;
 use App\Models\Appraisal;
 use App\SellProperty;
@@ -31,7 +32,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $properties = SellProperty::limit(6)->get();
+        $properties = DB::select(DB::raw('
+        SELECT * 
+            FROM tbl_sell_property AS sp
+            JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
+            JOIN tbl_property AS p ON a.id_property = p.id_property
+            JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
+            WHERE p.ind_deleted=0
+        '));
         $regions = Region::where('ind_deleted',0)->orderBy('region_code')->get();
         $provinces = Province::where('ind_deleted',0)->where('id_region',$regions->first()->id_region)->orderBy('province_code')->get();
         $cities = City::where('ind_deleted',0)->where('id_province',$provinces->first()->id_province)->orderBy('city_code')->get();
@@ -68,6 +76,25 @@ class HomeController extends Controller
         $sell = SellProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
         $sell->counter += 1;
         $sell->save();
+    }
+
+    public function AppraisedValue(Request $request){
+        $property = Property::findOrFail($request->id);
+        $appraisal = Appraisal::where('id_property',$request->id)->orderBy('create_date','desc')->first();
+        $appraisal_property = AppraiseProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
+        return view("<label>Appraisal Value: PhP ".number_format($appraisal_property->total_value,2)."</label>");
+    }
+
+    public function GetSearch(Request $request){
+        $properties = DB::select(DB::raw('
+        SELECT * 
+        FROM tbl_sell_property AS sp
+        JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
+        JOIN tbl_property AS p ON a.id_property = p.id_property
+        JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
+        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_type = "'.$request->model.'" AND sp.price BETWEEN "'.$request->minbudget.'" AND "'.$request->maxbudget.'"
+        '));;
+        return view('search',compact('properties'));
     }
 
     public function Statistics(Request $request){

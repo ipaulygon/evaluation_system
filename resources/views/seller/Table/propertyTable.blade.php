@@ -54,7 +54,7 @@
                                 </button>
                                 @endif
                                 @if($property->property_status == 2)
-                                <button type="button" class="btn btn-sm btn-default btnPublishProperty" data-toggle="tooltip" title="Publish">
+                                <button type="button" class="btn btn-sm btn-default btnPublishProperty" data-toggle="modal" data-target="#modalPublishProperty" title="Publish Property">
                                     PUBLISH
                                 </button>
                                 <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Re-appraise">
@@ -85,3 +85,6 @@
         <i id="loadingPropertyDesign"></i>
     </div>
 </div>
+@section('script')
+    <script src="{{ URL::asset('assets/js/sellerIndex.js') }}"></script>
+@stop

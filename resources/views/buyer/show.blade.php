@@ -69,7 +69,7 @@
                     <div class="col-md-6">
                         <label for="">Seller: {{$property->seller->first_name}} {{$property->seller->last_name}}</label>
                         <label for="">Contact: {{$property->seller->contact_number}}</label>
-                        <label for="">Area: {{$property->lot_area}} m<sup>2</sup></label>
+                        <label for="">Area: {{$property->lot_area}} sq. m.</label>
                         <label for="">Effective Age: {{$property->effective_age}}</label>
                         <label for="">No. of Contacts:</label>
                     </div>
@@ -87,7 +87,7 @@
             <div class="box-body">
                 <input type="hidden" id="property" value="{{$property->id_property}}">
                 <canvas id="statistics"></canvas>
-                <button id="contact" type="button" title="Contact Me">Contact Me</button>
+                <button class="btn btn-block btn-flat btn-success" id="contact" type="button" title="Contact Me">Contact Me</button>
             </div>
         </div>
     </div>

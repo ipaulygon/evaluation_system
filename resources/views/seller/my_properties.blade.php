@@ -2,20 +2,13 @@
 
 @section('title', 'My Properties')
 @section('content')
+    <br>
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <h3 class="box-title">Sell Property</h3>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-success btn-block addProperty" data-toggle="modal" data-toggle="modal" data-target="#modalAddProperty" title="AddProperty">Add Property</button>
-                            </div>
-                        </div>
-                    </div>
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Sell Property</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-success btn-block addProperty" data-toggle="modal" data-toggle="modal" data-target="#modalAddProperty" title="AddProperty">Add Property</button>
                 </div>
             </div>
         </div>
@@ -66,26 +59,25 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                
-                                                    @if($property->property_status == 0)
-                                                    <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Appraise">
-                                                        APPRAISE
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-default btnEditProperty" data-toggle="tooltip" title="Edit">
-                                                        EDIT
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-default btnDeleteProperty" data-toggle="tooltip" title="Delete">
-                                                        DELETE
-                                                    </button>
-                                                    @endif
-                                                    @if($property->property_status == 2)
-                                                    <button type="button" class="btn btn-sm btn-default btnPublishProperty" data-toggle="modal" data-target="#modalPublishProperty" title="Publish Property">
-                                                        PUBLISH
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Re-appraise">
-                                                        RE-APPRAISE
-                                                    </button>
-                                                    @endif
+                                                @if($property->property_status == 0)
+                                                <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Appraise">
+                                                    APPRAISE
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-default btnEditProperty" data-toggle="tooltip" title="Edit">
+                                                    EDIT
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-default btnDeleteProperty" data-toggle="tooltip" title="Delete">
+                                                    DELETE
+                                                </button>
+                                                @endif
+                                                @if($property->property_status == 2)
+                                                <button type="button" class="btn btn-sm btn-default btnPublishProperty" data-toggle="modal" data-target="#modalPublishProperty" title="Publish Property">
+                                                    PUBLISH
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Re-appraise">
+                                                    RE-APPRAISE
+                                                </button>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -437,9 +429,10 @@
                             <div class="modal-body">
                                 <center>Do you want to publish this property?</center>
                                 <input type="hidden" name="id" id="publishId" value="">
+                                <span id="appraisedValue">Appraised Value: </span>
                                 <div class="form-group">
                                     <label for="">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control">
+                                    <input type="text" name="price" id="price" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Remarks</label>
@@ -448,7 +441,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                <button type="button" id="btnPublish" class="btn btn-success">Publish</button>
+                                <button type="submit" id="btnPublish" class="btn btn-success">Publish</button>
                             </div>
                         </form>
                     </div>
