@@ -83,11 +83,11 @@
             </div>
             <div class="form-group">
                 <label for="budget">Minimum Budget:</label>
-                <input type="text" class="form-control" name="minbudget" id="minbudget">
+                <input type="text" placeholder="0" class="form-control" name="minbudget" id="minbudget">
             </div>
             <div class="form-group">
                 <label for="budget">Maximum Budget:</label>
-                <input type="text" class="form-control" name="maxbudget" id="maxbudget">
+                <input type="text" placeholder="1000000" class="form-control" name="maxbudget" id="maxbudget">
             </div>
             <button type="submit" id="search" class="btn btn-success btn-block">Find Property </button>
         </form>

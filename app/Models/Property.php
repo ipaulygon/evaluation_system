@@ -19,7 +19,6 @@ class Property extends Model
 	}
 
 	public function appraisal(){
-		return $this->belongsTo('\App\Models\Appraisal','id_property');
+		return $this->belongsTo('\App\Models\Appraisal','id_property')->orderBy('create_date','desc');
 	}
-	
 }

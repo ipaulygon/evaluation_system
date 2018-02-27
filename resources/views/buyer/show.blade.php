@@ -67,15 +67,16 @@
                         <label for="">Address: {{$property->propertyLocation->address}}</label>
                     </div>
                     <div class="col-md-6">
+                        <label for="">Price: {{number_format($property->appraisal->first()->SellProperty->price,2)}}</label>
                         <label for="">Seller: {{$property->seller->first_name}} {{$property->seller->last_name}}</label>
                         <label for="">Contact: {{$property->seller->contact_number}}</label>
                         <label for="">Area: {{$property->lot_area}} sq. m.</label>
                         <label for="">Effective Age: {{$property->effective_age}}</label>
-                        <label for="">No. of Contacts:</label>
+                        <span id="counter"><label for="">No. of Contacts: {{$property->appraisal->first()->SellProperty->counter}}</label></span>
                     </div>
                 </div>
                 <hr>
-                INSERT MAP
+                {{$property->appraisal->first()->SellProperty->remakrs}}
             </div>
         </div>
     </div>
@@ -87,7 +88,32 @@
             <div class="box-body">
                 <input type="hidden" id="property" value="{{$property->id_property}}">
                 <canvas id="statistics"></canvas>
+                <div id="ranking"></div>
+                <hr>
+                INSERT MAP
                 <button class="btn btn-block btn-flat btn-success" id="contact" type="button" title="Contact Me">Contact Me</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalContact" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Contact Me</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="contactMessage">
+                        <ul>
+                            <li>Contact Person: {{$property->seller->first_name}} {{$property->seller->last_name}}</li>
+                            <li>Contact No.: {{$property->seller->contact_number}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -99,10 +125,12 @@
     <script src="{{ URL::asset('assets/js/showProperty.js') }}"></script>
     <script>
         $(document).ready(function(){
+            var barangay = "{{$property->propertyLocation->barangay->id_barangay}}";
+            var property = "{{$property->id_property}}";
             $.ajax({
                 type: "POST",
                 url: "/get_statistics",
-                data: {barangay: "{{$property->propertyLocation->barangay->id_barangay}}", property: "{{$property->id_property}}"},
+                data: {barangay: barangay, property: property},
                 cache: false,
                 beforeSend: function (xhr) {
                     var token = $('meta[name="csrf_token"]').attr('content');
@@ -112,6 +140,7 @@
                 },
                 dataType: "JSON",
                 success:function(data){
+                    console.log(data);
                     var ctx = document.getElementById('statistics').getContext('2d');
                     var chart = new Chart(ctx, {
                         // The type of chart we want to create
@@ -121,22 +150,10 @@
                             labels: ["{{$property->propertyLocation->barangay->barangay_description}} ({{$property->propertyLocation->barangay->barangay_code}})"],
                             datasets: [
                                 {
-                                    label: "Minimum",
-                                    backgroundColor: 'rgb(255, 99, 132)',
-                                    borderColor: 'rgb(255, 99, 132)',
-                                    data: [data.min[0].minimum]
-                                },
-                                {
-                                    label: "Current",
-                                    backgroundColor: 'rgb(255, 99, 132)',
-                                    borderColor: 'rgb(255, 99, 132)',
-                                    data: [data.current[0].current]
-                                },
-                                {
-                                    label: "Maximum",
-                                    backgroundColor: 'rgb(255, 99, 132)',
-                                    borderColor: 'rgb(255, 99, 132)',
-                                    data: [data.max[0].maximum]
+                                    label: "Ranking",
+                                    backgroundColor: null,
+                                    borderColor: 'black',
+                                    data: [data.min[0].minimum,data.current[0].current,data.max[0].maximum]
                                 }
                             ]
                         },
@@ -144,6 +161,11 @@
                         // Configuration options go here
                         options: {}
                     });
+                    var rank = 0;
+                    $.each(data.rank, function(key,value){
+                        rank = (value.property==property ? value.rank : rank);
+                    });
+                    $('#ranking').html('<label>Ranking: '+rank+' out of '+data.all[0].total+'</label>')
                 }
             })
         });

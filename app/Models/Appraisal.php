@@ -14,5 +14,7 @@ class Appraisal extends Model
 		return $this->hasOne('\App\Models\Property','id_property','id_property');
 	}
 
-	
+	public function SellProperty(){
+		return $this->belongsTo('\App\SellProperty','id_appraisal');
+	}
 }

@@ -122,7 +122,7 @@ class propertyController extends Controller
             $property->property_status      = 0;
             $property->tct_number 	        = $request->strTCTNumber;
             $property->lot_area 	        = $request->dblLotArea;
-            $property->effective_age 	    = $request->intEffectiveAge;
+            // $property->effective_age 	    = $request->intEffectiveAge;
             $property->save();
 
             $propertiesNewDataSet = $this->getPropertyData();

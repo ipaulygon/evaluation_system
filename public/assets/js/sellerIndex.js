@@ -14,7 +14,7 @@ $(".addProperty").click(function(){
     $("#formErrorMessage").hide();
     $("#inputPropertyName").val("");
     $("#inputLotArea").val("");
-    $("#inputEffectiveAge").val("");
+    // $("#inputEffectiveAge").val("");
     $("#inputPropertyLocation").val("");
 
 });
@@ -39,7 +39,7 @@ $('#form').validator().on('submit', function (e) {
         var intPropertyType = $("#inputPropertyType").val();
         var strTCTNumber = $("#inputTCTNumber").val();
         var dblLotArea = $("#inputLotArea").val();
-        var intEffectiveAge = $("#inputEffectiveAge").val();
+        // var intEffectiveAge = $("#inputEffectiveAge").val();
         var intRegion = $("#region").val();
         var intProvince = $("#province").val();
         var intCity = $("#city").val();
@@ -54,7 +54,7 @@ $('#form').validator().on('submit', function (e) {
                       return xhr.setRequestHeader('X-CSRF-TOKEN', token);
                 }
             },
-            data: { strPropertyName : strPropertyName, intPropertyType : intPropertyType, strTCTNumber : strTCTNumber, dblLotArea : dblLotArea, intEffectiveAge : intEffectiveAge, 
+            data: { strPropertyName : strPropertyName, intPropertyType : intPropertyType, strTCTNumber : strTCTNumber, dblLotArea : dblLotArea, 
                intRegion : intRegion, intProvince : intProvince, intCity : intCity, intBarangay : intBarangay, strPropertyLocation : strPropertyLocation},
             success:function(data){
                 if(data == 'error'){
@@ -85,7 +85,7 @@ $("#btnCreateAnotherProperty").click(function(){
     $("#formErrorMessage").hide();
     $("#inputPropertyName").val("");
     $("#inputLotArea").val("");
-    $("#inputEffectiveAge").val("");
+    // $("#inputEffectiveAge").val("");
     $("#inputPropertyLocation").val("");
     $('#modalAddProperty').modal('show');
 });
@@ -192,6 +192,39 @@ $('#btnPublish').validator().on('submit',function(e){
             alert("Error!");
         }
     });
+});
+
+$(document).on('click','.btnSoldProperty',function(e){
+    e.preventDefault();
+    var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    bootbox.confirm({ 
+        size: "small",
+        title: "<b>Mark property as sold?</b>",
+        message:  "This property will no longer be viewed",
+        callback: function(result){ 
+            if(result){
+                $('#loadingSeller').addClass('overlay');
+                $('#loadingSellerDesign').addClass('fa fa-refresh fa-spin')
+                $.ajax({
+                    url: "/sold_property",
+                    type:"POST",
+                    beforeSend: function (xhr) {
+                        var token = $('meta[name="csrf_token"]').attr('content');
+                        if (token) {
+                              return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                        }
+                    },
+                    data: {id : id},
+                    success:function(data){
+                        $('#propertyTable').html(data);
+                        $('#modalSuccessfulSold').modal('show');
+                    },error:function(data){ 
+                        alert("Error!");
+                    }
+                });
+            }
+        }
+    })
 });
 
 $(document).on('change','#region',function(){

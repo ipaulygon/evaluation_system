@@ -106,6 +106,13 @@
                             </a>
                         </li>
                         <li class="treeview">
+                            <a href="{{ URL::to('/sellers') }}">
+                                <i class="fa fa-users"></i> <span>Seller</span>
+                                <span class="pull-right-container">
+                                </span>
+                            </a>
+                        </li>
+                        <li class="treeview">
                             <a href="{{ URL::to('/housemodels') }}">
                                 <i class="fa fa-home"></i> <span>House Model</span>
                                 <span class="pull-right-container">

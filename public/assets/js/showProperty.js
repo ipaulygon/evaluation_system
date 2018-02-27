@@ -12,7 +12,8 @@ $(document).on('click','#contact',function(){
             }
         },
         success: function(data){
-
+            $('#counter').html(data);
+            $('#modalContact').modal('show');
         },
         error: function(data){
             alert('error');

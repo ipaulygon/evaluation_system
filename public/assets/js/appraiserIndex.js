@@ -1,12 +1,23 @@
 $('#dtblAppraiser').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblAppraiser tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblAppraiser tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#inputDisplayPicture')
+                .attr('src', e.target.result)
+                .width(180);
+            };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
 $(".addAppraiser").click(function(){
     var passwordGenerated = randomString(7);
@@ -69,10 +80,12 @@ $('#form').validator().on('submit', function (e) {
             Submit data to the controller using ajax
             */
             
-        // $.each($('#inputPicture')[0].files, function(i, file){
-        //     data.append('inputPicture', file);
-        // });
-        // $data.append('picture',picture);
+           var strFirstname = $("#inputFirstname").val();
+           var strMiddlename = $("#inputMiddlename").val();
+           var strLastname = $("#inputLastname").val();
+           var strAppraiserEmail = $("#inputAppraiserEmail").val();
+           var strPassword = $("#inputPassword").val();
+           var strReEnterPassword = $("#inputReEnterPassword").val();
         var formData = new FormData($('#form')[0]);
         
         $.ajax({

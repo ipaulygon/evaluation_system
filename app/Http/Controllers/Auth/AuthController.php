@@ -79,8 +79,9 @@ class AuthController extends Controller
             'first_name' => $data['first_name'],
             'middle_name' => $data['middle_name'],
             'last_name' => $data['last_name'],
+            'isActive' => 0
         ]);
 
-        return $user;
+        return view('Auth.login');
     }
 }

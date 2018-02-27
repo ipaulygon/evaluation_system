@@ -39,8 +39,12 @@ Route::group(['middleware' => 'auth'], function(){
             return Redirect::to('/appraisers');
         }else if(Auth::user()->user_type == 1){
             return Redirect::to('/request_appraisals');
-        }else{
+        }else if(Auth::user()->user_type == 2 && Auth::user()->seller->isActive==1){
             return Redirect::to('/my_properties');
+        }else{
+            \Auth::logout();
+            $request->session()->flash('error', "You are still pending for selling properties.");
+            return Redirect::to('/login');
         }
     });
     Route::group(['middleware'=>'admin'], function(){
@@ -80,6 +84,26 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/appraiser/data', array(
             'uses' => 'appraiserController@getEnforcerData',
             'as' => 'appraiser.data'
+        ));
+        Route::get('/sellers', array(
+            'uses' => 'sellerController@index',
+            'as' => 'seller.index'
+        ));
+        Route::post('/seller/filter', array(
+            'uses' => 'sellerController@filter',
+            'as' => 'seller.filter'
+        ));
+        Route::post('/seller/suspend', array(
+            'uses' => 'sellerController@suspend',
+            'as' => 'seller.suspend'
+        ));
+        Route::post('/seller/restore', array(
+            'uses' => 'sellerController@restore',
+            'as' => 'seller.restore'
+        ));
+        Route::post('/seller/accept', array(
+            'uses' => 'sellerController@accept',
+            'as' => 'seller.accept'
         ));
         // Maintenance ------//
         // Regions
@@ -261,6 +285,7 @@ Route::group(['middleware' => 'auth'], function(){
             'as' => 'seller.request_appraisal'
         ));
         Route::post('/publish_property', 'sellerController@PublishProperty');
+        Route::post('/sold_property', 'sellerController@SoldProperty');
     });
 });
 

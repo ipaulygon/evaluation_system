@@ -78,6 +78,11 @@
                                                     RE-APPRAISE
                                                 </button>
                                                 @endif
+                                                @if($property->property_status == 4)
+                                                <button type="button" class="btn btn-sm btn-default btnSoldProperty" data-toggle="tooltip" title="Sold">
+                                                    SOLD
+                                                </button>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -141,10 +146,6 @@
                                             <div class="form-group  col-sm-12">
                                                 <label for="inputLotArea">Lot Area</label>
                                                 <input class="form-control" id="inputLotArea" required>
-                                            </div>
-                                            <div class="form-group  col-sm-12">
-                                                <label for="inputEffectiveAge">Effective Age</label>
-                                                <input class="form-control" id="inputEffectiveAge" required>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -210,12 +211,12 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Create a new Appraiser</h4>
+                        <h4 class="modal-title">Property</h4>
                     </div>
                     <div class="modal-body">
                         <p>
                             <img class="img-responsive" src="assets/image/icons/successIcon.png" alt="Success Icon" width="20px" align="left">
-                            &nbsp; A new property named <span id="successPropertyName"></span> has been add to your property.
+                            &nbsp; A new property named <span id="successPropertyName"></span> has been added to your property.
                         </p>
                         <div class="successMessage">
                             
@@ -225,6 +226,31 @@
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal" id="btnCreateAnotherProperty">CREATE ANOTHER PROPERTY</button>
                         <button type="button" id="btnPrint" class="btn btn-default">PRINT</button>
                         <button type="button" id="btnSendEmail" class="btn btn-success">SEND EMAIL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL SUCCESSFUL CREATION -->
+
+        <div class="modal fade" id="modalSuccessfulSold" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Property</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <img class="img-responsive" src="assets/image/icons/successIcon.png" alt="Success Icon" width="20px" align="left">
+                            &nbsp; Property has been sold.
+                        </p>
+                        <div class="successMessage">
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" id="btnCreateAnotherProperty">CREATE ANOTHER PROPERTY</button>
                     </div>
                 </div>
             </div>

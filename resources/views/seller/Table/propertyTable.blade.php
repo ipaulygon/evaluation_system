@@ -61,6 +61,11 @@
                                     RE-APPRAISE
                                 </button>
                                 @endif
+                                @if($property->property_status == 4)
+                                <button type="button" class="btn btn-sm btn-default btnSoldProperty" data-toggle="tooltip" title="Sold">
+                                    SOLD
+                                </button>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -85,6 +90,4 @@
         <i id="loadingPropertyDesign"></i>
     </div>
 </div>
-@section('script')
-    <script src="{{ URL::asset('assets/js/sellerIndex.js') }}"></script>
-@stop
+<script src="{{ URL::asset('assets/js/sellerIndex.js') }}"></script>
