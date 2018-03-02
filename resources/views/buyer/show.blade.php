@@ -26,26 +26,30 @@
             <div class="box-body">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000" style="width:100%!important">
                     <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1" class=""></li>
-                        <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+                        @foreach($property->pictures as $key => $image)
+                            @if($key==0)
+                            <li data-target="#myCarousel" data-slide-to="{{$key}}" class="active"></li>                            
+                            @else
+                            <li data-target="#myCarousel" data-slide-to="{{$key}}"></li>                                                        
+                            @endif
+                        @endforeach
                     </ol>
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <center>
-                            <img class="first-slide" src="{{ URL::asset('assets/temp/images/model/model.jpg') }}" alt="First slide">
-                            </center>
-                        </div>
-                        <div class="item">
-                            <center>
-                            <img class="second-slide" src="{{ URL::asset('assets/temp/images/model/model.jpg') }}" alt="Second slide">
-                            </center>
-                        </div>
-                        <div class="item">
-                            <center>
-                            <img class="third-slide" src="{{ URL::asset('assets/temp/images/model/model.jpg') }}" alt="Third slide">
-                            </center>
-                        </div>
+                        @foreach($property->pictures as $key => $image)
+                            @if($key==0)
+                            <div class="item active">
+                                <center>
+                                <img src="{{ URL::asset($image->picture_path) }}" >
+                                </center>
+                            </div>
+                            @else
+                            <div class="item">
+                                <center>
+                                <img src="{{ URL::asset($image->picture_path) }}" >
+                                </center>
+                            </div>
+                            @endif
+                        @endforeach
                     </div>
                     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -55,7 +59,6 @@
                     </a>
                 </div>
                 <br>
-                INSERT PICS
                 <hr>
                 <h4>Details</h4>
                 <div class="row">
@@ -67,16 +70,15 @@
                         <label for="">Address: {{$property->propertyLocation->address}}</label>
                     </div>
                     <div class="col-md-6">
-                        <label for="">Price: {{number_format($property->appraisal->first()->SellProperty->price,2)}}</label>
+                        <label for="">Price: PhP {{number_format($property->appraisal->SellProperty->price,2)}}</label>
                         <label for="">Seller: {{$property->seller->first_name}} {{$property->seller->last_name}}</label>
                         <label for="">Contact: {{$property->seller->contact_number}}</label>
                         <label for="">Area: {{$property->lot_area}} sq. m.</label>
-                        <label for="">Effective Age: {{$property->effective_age}}</label>
-                        <span id="counter"><label for="">No. of Contacts: {{$property->appraisal->first()->SellProperty->counter}}</label></span>
+                        <span id="counter"><label for="">No. of Contacts: {{number_format($property->appraisal->SellProperty->counter)}}</label></span>
                     </div>
                 </div>
                 <hr>
-                {{$property->appraisal->first()->SellProperty->remakrs}}
+                {{$property->appraisal->SellProperty->remarks}}
             </div>
         </div>
     </div>
@@ -147,7 +149,7 @@
                         type: 'line',
                         // The data for our dataset
                         data: {
-                            labels: ["{{$property->propertyLocation->barangay->barangay_description}} ({{$property->propertyLocation->barangay->barangay_code}})"],
+                            labels: ["Minimum","Current","Maximum"],
                             datasets: [
                                 {
                                     label: "Ranking",

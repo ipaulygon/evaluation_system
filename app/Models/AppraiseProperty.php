@@ -14,5 +14,7 @@ class AppraiseProperty extends Model
 		return $this->hasOne('\App\Models\Appraisal','id_appraisal','id_appraisal');
 	}
 
-	
+	public function houseModel(){
+		return $this->hasOne('\App\Models\HouseModel','id_house_model','id_house_model');
+	}
 }

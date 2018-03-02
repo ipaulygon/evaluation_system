@@ -12,6 +12,9 @@ use App\Models\Property;
 use App\Models\Region;
 use App\Models\Province;
 use App\SellProperty;
+use App\Models\AppraisePropertyPicture;
+use App\Models\Appraisal;
+use App\Models\AppraiseProperty;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -40,7 +43,7 @@ class sellerController extends Controller
             DB::beginTransaction();  
             $seller = Seller::findOrFail($request->strPrimaryKey);
             $seller->ind_deleted = 1;
-            $seller->isActive = 0;
+            $seller->ind_active = 0;
             $seller->update_date = Carbon::now();
             $seller->save();
             $sellerNewDataSet = $this->getSellers();
@@ -58,7 +61,7 @@ class sellerController extends Controller
             DB::beginTransaction();  
             $seller = Seller::findOrFail($request->strPrimaryKey);
             $seller->ind_deleted = 0;
-            $seller->isActive = 0;            
+            $seller->ind_active = 0;            
             $seller->update_date = Carbon::now();
             $seller->save();
             $sellerNewDataSet = $this->getSellers();
@@ -74,12 +77,12 @@ class sellerController extends Controller
     public function accept(Request $request){
         try{
             DB::beginTransaction();  
-            $seller = Seller::findOrFail($request->strPrimaryKey);
-            $seller->isActive = 1;
+            $seller = Seller::find($request->strPrimaryKey);
+            $seller->ind_active = 1;
             $seller->update_date = Carbon::now();
             $seller->save();
-            $sellerNewDataSet = $this->getSellers();
             DB::commit();
+            $sellerNewDataSet = $this->getSellers();
             return view('seller.Table.sellerTable', ['sellers' => $sellerNewDataSet]);
         }catch (\Illuminate\Database\QueryException $e){
 	        DB::rollBack();	
@@ -104,11 +107,11 @@ class sellerController extends Controller
     public function PublishProperty(Request $request){
         try{
             DB::beginTransaction();  
-            $property = Property::findOrFail($request->id);
+            $property = Property::findOrFail($request->propertyId);
             $property->property_status = 4;
             $property->save();
             SellProperty::create([
-                'id_appraisal' => $request->id,
+                'id_appraisal' => $request->appraisalId,
                 'price' => $request->price,
                 'remarks' => $request->remarks,
                 'counter' => 0
@@ -132,6 +135,50 @@ class sellerController extends Controller
             $properties = $this->getProperties();
             DB::commit();
             return view('seller.Table.propertyTable', compact('properties'));
+        }catch (\Illuminate\Database\QueryException $e){
+	        DB::rollBack();	
+	        //return $e->getMessage(); for debugging
+	        return "error";
+        }
+    }
+
+    public function uploadImage(Request $request){
+        try{
+            DB::beginTransaction();  
+            $file = $request->inputPicture;
+            $picture = "";
+            if($file == '' || $file == null){
+                $picture = "assets/image/avatar/AdminAvatar.jpg";
+            }else{
+                $date = date("Ymdhis");
+                $extension = $request->inputPicture->getClientOriginalExtension();
+                $picture = "assets/image/appraise/".$date.'.'.$extension;
+                $request->inputPicture->move("assets/image/appraise",$picture);    
+            }
+            $pp = new AppraisePropertyPicture;
+            $pp->id_property = $request->propertyId;
+            $pp->picture_path = $picture;
+            $pp->save();
+            DB::commit();
+        }catch (\Illuminate\Database\QueryException $e){
+	        DB::rollBack();	
+	        //return $e->getMessage(); for debugging
+	        return "error";
+        }
+    }
+
+    public function viewProperty(Request $request){
+        $property = Property::findOrFail($request->id);
+        $appraisals = Appraisal::where('id_property',$request->id)->orderBy('create_date','desc')->get();
+        return view('seller.details',compact('property','appraisals'));
+    }
+
+    public function removePicture(Request $request){
+        try{
+            DB::beginTransaction();  
+            $image = AppraisePropertyPicture::findOrFail($request->id);
+            $image->delete();
+            DB::commit();
         }catch (\Illuminate\Database\QueryException $e){
 	        DB::rollBack();	
 	        //return $e->getMessage(); for debugging

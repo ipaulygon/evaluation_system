@@ -13,14 +13,13 @@ class SellProperty extends Model
 		'create_date',
     	'update_date',
 		'id_appraisal',
-		'status',
 		'price',
 		'remarks',
 		'counter'
 	];
 
 	public function appraisal(){
-        return $this->belongsTo('App\Models\Appraisal','id_appraisal');
+        return $this->belongsTo('App\Models\Appraisal','id_appraisal','id_appraisal');
     }
 }
 

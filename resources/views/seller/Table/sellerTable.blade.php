@@ -28,11 +28,11 @@
                             {{$seller->first_name}} {{$seller->last_name}}
                         </td>
                         <td class="status">
-                            {{$seller->isActive==1 ? "Active":"Pending"}}
+                            {{$seller->ind_active==1 ? "Active":"Pending"}}
                         </td>
                         <td width="150px">
                             <div class="btn-group">
-                                @if($seller->isActive==1)
+                                @if($seller->ind_active==1)
                                 <button class="btn btn-sm btn-default btnSuspendSeller" data-toggle="tooltip" title="Deactivate">
                                     <i class="fa fa-trash"></i>
                                 </button>

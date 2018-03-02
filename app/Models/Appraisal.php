@@ -15,6 +15,10 @@ class Appraisal extends Model
 	}
 
 	public function SellProperty(){
-		return $this->belongsTo('\App\SellProperty','id_appraisal');
+		return $this->belongsTo('\App\SellProperty','id_appraisal','id_appraisal');
+	}
+
+	public function appraiseProperty(){
+		return $this->belongsTo('\App\Models\AppraiseProperty','id_appraisal','id_appraisal');
 	}
 }

@@ -24,6 +24,7 @@ use App\Models\PropertyLocation;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class appraiserController extends Controller
 {
@@ -166,10 +167,13 @@ class appraiserController extends Controller
 
     public function load_appraisal($id){
         $appraisal = Appraisal::find($id);
-        $regions = Region::all();
-        $house_models = HouseModel::all();
+        $regions = Region::where('ind_deleted',0)->orderBy('region_code')->get();
+        $provinces = Province::where('ind_deleted',0)->where('id_region',$regions->first()->id_region)->orderBy('province_code')->get();
+        $cities = City::where('ind_deleted',0)->where('id_province',$provinces->first()->id_province)->orderBy('city_code')->get();
+        $barangays = Barangay::where('ind_deleted',0)->where('id_city',$cities->first()->id_city)->orderBy('barangay_code')->get();
+        $house_models = HouseModel::where('ind_deleted',0)->orderBy('house_model')->get();
         if (!is_null($appraisal)){
-            return view('appraiser.appraise', ['appraisal' => $appraisal, 'regions' => $regions, 'house_models' => $house_models]);
+            return view('appraiser.appraise', compact('appraisal','regions','provinces','cities','barangays','house_models'));
         }else{
             return view('errors.404');
         }
@@ -207,24 +211,7 @@ class appraiserController extends Controller
             $comparable->property_name 	        = $request->prpty1_property_name;
             $comparable->id_property_location   = $propertyLocation->id_property_location;
             $comparable->property_type          = $request->subj_property_type;
-            $comparable->inspection_date 	    = $request->prpty1_dtInspection;
-            $comparable->appraisal_date 	    = $request->prpty1_dtAppraisal;
-            $comparable->registry_of_deeds      = $request->prpty1_reg_deeds;
-            $comparable->id_house_model         = $request->prpty1_house_model;
-            $comparable->number_of_storeys 	    = $request->prpty1_num_storey;
-            $comparable->rental_rate 	        = $request->prpty1_rental_rate;
-            $comparable->lot_area               = $request->prpty1_lot_area;
-            $comparable->floor_area             = $request->prpty1_floor_area;
-            $comparable->effective_age          = $request->prpty1_effective_age;
-            $comparable->total_ecolife          = $request->prpty1_total_ecolife;
-            $comparable->remaining_ecolife      = $request->prpty1_remaining_ecolife;
-            $comparable->remarks                = $request->prpty1_remarks;
             $comparable->lot_value              = $request->prpty1_lot_value;
-            $comparable->completion             = $request->prpty1_completion;
-            $comparable->house_value 	        = $request->prpty1_house_value;
-            $comparable->depreciated_value      = $request->prpty1_depreciated_value;
-            $comparable->cost_of_improvement    = $request->prpty1_cost_improvement;
-            $comparable->total_value 	        = $request->prpty1_total_value;
             $comparable->save();
 
             $appraisaldetails = new AppraisalDetails;
@@ -246,24 +233,7 @@ class appraiserController extends Controller
             $comparable->property_name 	        = $request->prpty2_property_name;
             $comparable->id_property_location   = $propertyLocation->id_property_location;
             $comparable->property_type          = $request->subj_property_type;
-            $comparable->inspection_date 	    = $request->prpty2_dtInspection;
-            $comparable->appraisal_date 	    = $request->prpty2_dtAppraisal;
-            $comparable->registry_of_deeds      = $request->prpty2_reg_deeds;
-            $comparable->id_house_model         = $request->prpty2_house_model;
-            $comparable->number_of_storeys 	    = $request->prpty2_num_storey;
-            $comparable->rental_rate 	        = $request->prpty2_rental_rate;
-            $comparable->lot_area               = $request->prpty2_lot_area;
-            $comparable->floor_area             = $request->prpty2_floor_area;
-            $comparable->effective_age          = $request->prpty2_effective_age;
-            $comparable->total_ecolife          = $request->prpty2_total_ecolife;
-            $comparable->remaining_ecolife      = $request->prpty2_remaining_ecolife;
-            $comparable->remarks                = $request->prpty2_remarks;
             $comparable->lot_value              = $request->prpty2_lot_value;
-            $comparable->completion             = $request->prpty2_completion;
-            $comparable->house_value 	        = $request->prpty2_house_value;
-            $comparable->depreciated_value      = $request->prpty2_depreciated_value;
-            $comparable->cost_of_improvement    = $request->prpty2_cost_improvement;
-            $comparable->total_value 	        = $request->prpty2_total_value;
             $comparable->save();
 
             $appraisaldetails = new AppraisalDetails;
@@ -286,24 +256,7 @@ class appraiserController extends Controller
             $comparable->property_name 	        = $request->prpty3_property_name;
             $comparable->id_property_location   = $propertyLocation->id_property_location;
             $comparable->property_type          = $request->subj_property_type;
-            $comparable->inspection_date 	    = $request->prpty3_dtInspection;
-            $comparable->appraisal_date 	    = $request->prpty3_dtAppraisal;
-            $comparable->registry_of_deeds      = $request->prpty3_reg_deeds;
-            $comparable->id_house_model         = $request->prpty3_house_model;
-            $comparable->number_of_storeys 	    = $request->prpty3_num_storey;
-            $comparable->rental_rate 	        = $request->prpty3_rental_rate;
-            $comparable->lot_area               = $request->prpty3_lot_area;
-            $comparable->floor_area             = $request->prpty3_floor_area;
-            $comparable->effective_age          = $request->prpty3_effective_age;
-            $comparable->total_ecolife          = $request->prpty3_total_ecolife;
-            $comparable->remaining_ecolife      = $request->prpty3_remaining_ecolife;
-            $comparable->remarks                = $request->prpty3_remarks;
             $comparable->lot_value              = $request->prpty3_lot_value;
-            $comparable->completion             = $request->prpty3_completion;
-            $comparable->house_value 	        = $request->prpty3_house_value;
-            $comparable->depreciated_value      = $request->prpty3_depreciated_value;
-            $comparable->cost_of_improvement    = $request->prpty3_cost_improvement;
-            $comparable->total_value 	        = $request->prpty3_total_value;
             $comparable->save();
 
             $appraisaldetails = new AppraisalDetails;
@@ -318,19 +271,15 @@ class appraiserController extends Controller
             $appraiseproperty->registry_of_deeds    = $request->subj_reg_deeds;
             $appraiseproperty->id_house_model       = $request->subj_house_model;
             $appraiseproperty->number_of_storeys 	= $request->subj_num_storey;
-            $appraiseproperty->rental_rate 	        = $request->subj_rental_rate;
-            $appraiseproperty->lot_area             = $request->subj_lot_area;
-            $appraiseproperty->floor_area           = $request->subj_floor_area;
             $appraiseproperty->effective_age        = $request->subj_effective_age;
             $appraiseproperty->total_ecolife        = $request->subj_total_ecolife;
             $appraiseproperty->remaining_ecolife    = $request->subj_remaining_ecolife;
             $appraiseproperty->remarks              = $request->subj_remarks;
-            $appraiseproperty->lot_value            = $request->appraisal_lot_value;
-            $appraiseproperty->completion           = $request->subj_completion;
-            $appraiseproperty->house_value 	        = $request->appraisal_house_value;
-            $appraiseproperty->depreciated_value    = $request->appraisal_depreciated_value;
-            $appraiseproperty->cost_of_improvement  = $request->appraisal_cost_improvement;
-            $appraiseproperty->total_value 	        = $request->appraisal_total_value;
+            $appraiseproperty->house_value          = $request->house_value;
+            $appraiseproperty->ave_lot_value        = $request->average_lot_value;
+            $appraiseproperty->total_lot_value      = $request->appraisal_total_lot_value;
+            $appraiseproperty->total_house_value 	= $request->appraisal_total_house_value;
+            $appraiseproperty->total_property_value = $request->appraisal_total_property_value;
             $appraiseproperty->save();
             
             $appraisal= Appraisal::find($request->subj_id_appraisal);
@@ -345,7 +294,7 @@ class appraiserController extends Controller
 
             //$propertiesNewDataSet = $this->getPropertyData();
             DB::commit();
-            
+            return view('appraiser.appraised', ['appraiseproperty' => $appraiseproperty]);
         }catch (\Illuminate\Database\QueryException $e){
 	        DB::rollBack();	
 	        return $e->getMessage(); 
@@ -354,30 +303,8 @@ class appraiserController extends Controller
         }
     }
 
-    public function uploadImageAppraiseProperty(Request $request){
-        try{
-            DB::beginTransaction();  
-            if ($request->hasFile('appraisePicture')) {
-                $files = $request->file('appraisePicture');
-                foreach($files as $file){
-                    $date = date("Ymdhis");
-                    $extension = $file->getClientOriginalExtension();
-                    $picture = "assets/image/appraise/".$date.'.'.$extension;
-                    echo $picture;
-                    $file->move("assets/image/appraise",$picture); 
-                    ///$appraisePropertyPicture = new AppraisePropertyPicture;
-                    ///$appraisePropertyPicture->picture_path = $picture;
-                    ///$appraisePropertyPicture->save();
-                }
-            }
-            
-            DB::commit();
-            
-        }catch (\Illuminate\Database\QueryException $e){
-	        DB::rollBack();	
-	        return $e->getMessage(); 
-            //for debugging
-	        //return "error";
-        }   
+    public function viewAppraisal(Request $request){
+        $appraiseproperty = AppraiseProperty::where('id_appraisal',$request->id)->first();
+        return view('appraiser.appraised', ['appraiseproperty' => $appraiseproperty]);
     }
 }

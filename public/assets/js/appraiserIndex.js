@@ -1,9 +1,9 @@
 $('#dtblAppraiser').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    // $('#dtblAppraiser tbody').on('click', '.clickable-row', function () {
-    //     window.location = $(this).data("href");
-    // } );
+    $('#dtblAppraiser tbody').on('click', '.clickable-row', function () {
+        window.location = $(this).data("href");
+    } );
 
 });
 
@@ -381,86 +381,8 @@ function getSubjRemainingEcolife(){
     var subj_total_ecolife= $("#subj_total_ecolife").val();
     var subj_remaining_ecolife= $("#subj_remaining_ecolife").val();
 
-    var remaining = parseFloat((parseFloat(subj_total_ecolife) || 0) - (parseFloat(subj_effective_age) || 0));
+    var remaining = parseFloat(((parseFloat(subj_total_ecolife) || 0) - (parseFloat(subj_effective_age) || 0)) || 0);
     $("#subj_remaining_ecolife").val(remaining);
-}
-
-
-function getPrpty1RemainingEcolife(){
-    var prpty1_effective_age= $("#prpty1_effective_age").val();
-    var prpty1_total_ecolife= $("#prpty1_total_ecolife").val();
-    var prpty1_remaining_ecolife= $("#prpty1_remaining_ecolife").val();
-
-    var remaining = parseFloat((parseFloat(prpty1_total_ecolife) || 0) - (parseFloat(prpty1_effective_age) || 0));
-    $("#prpty1_remaining_ecolife").val(remaining);
-}
-
-
-function getPrpty2RemainingEcolife(){
-    var prpty2_effective_age= $("#prpty2_effective_age").val();
-    var prpty2_total_ecolife= $("#prpty2_total_ecolife").val();
-    var prpty2_remaining_ecolife= $("#prpty2_remaining_ecolife").val();
-
-    var remaining = parseFloat((parseFloat(prpty2_total_ecolife) || 0) - (parseFloat(prpty2_effective_age) || 0));
-    $("#prpty2_remaining_ecolife").val(remaining);
-}
-
-
-function getPrpty3RemainingEcolife(){
-    var prpty3_effective_age= $("#prpty3_effective_age").val();
-    var prpty3_total_ecolife= $("#prpty3_total_ecolife").val();
-    var prpty3_remaining_ecolife= $("#prpty3_remaining_ecolife").val();
-
-    var remaining = parseFloat((parseFloat(prpty3_total_ecolife) || 0) - (parseFloat(prpty3_effective_age) || 0));
-    $("#prpty3_remaining_ecolife").val(remaining);
-}
-
-
-function getProperty1TotalValue(){
-    var prpty1_lot_value= $("#prpty1_lot_value").val();
-    var prpty1_house_value= $("#prpty1_house_value").val();
-    var prpty1_depreciated_value= $("#prpty1_depreciated_value").val();
-    var prpty1_cost_improvement= $("#prpty1_cost_improvement").val();
-    var prpty1_total_value= $("#prpty1_total_value").val();
-
-    var total = parseFloat(((parseFloat(prpty1_lot_value) || 0) + ((parseFloat(prpty1_house_value) || 0) + (parseFloat(prpty1_cost_improvement) || 0))) - (parseFloat(prpty1_depreciated_value) || 0)).toFixed(2);
-    $("#prpty1_total_value").val(total);
-}
-
-
-function getProperty2TotalValue(){
-    var prpty2_lot_value= $("#prpty2_lot_value").val();
-    var prpty2_house_value= $("#prpty2_house_value").val();
-    var prpty2_depreciated_value= $("#prpty2_depreciated_value").val();
-    var prpty2_cost_improvement= $("#prpty2_cost_improvement").val();
-    var prpty2_total_value= $("#prpty2_total_value").val();
-
-    var total = parseFloat(((parseFloat(prpty2_lot_value) || 0) + ((parseFloat(prpty2_house_value) || 0) + (parseFloat(prpty2_cost_improvement) || 0))) - (parseFloat(prpty2_depreciated_value) || 0)).toFixed(2);
-    $("#prpty2_total_value").val(total);
-}
-
-
-function getProperty3TotalValue(){
-    var prpty3_lot_value= $("#prpty3_lot_value").val();
-    var prpty3_house_value= $("#prpty3_house_value").val();
-    var prpty3_depreciated_value= $("#prpty3_depreciated_value").val();
-    var prpty3_cost_improvement= $("#prpty3_cost_improvement").val();
-    var prpty3_total_value= $("#prpty3_total_value").val();
-
-    var total = parseFloat(((parseFloat(prpty3_lot_value) || 0) + ((parseFloat(prpty3_house_value) || 0) + (parseFloat(prpty3_cost_improvement) || 0))) - (parseFloat(prpty3_depreciated_value) || 0)).toFixed(2);
-    $("#prpty3_total_value").val(total);
-}
-
-
-function getSubjTotalValue(){
-    var subj_lot_value= $("#subj_lot_value").val();
-    var subj_house_value= $("#subj_house_value").val();
-    var subj_depreciated_value= $("#subj_depreciated_value").val();
-    var subj_cost_improvement= $("#subj_cost_improvement").val();
-    var subj_total_value= $("#subj_total_value").val();
-
-    var total = parseFloat(((parseFloat(subj_lot_value) || 0) + ((parseFloat(subj_house_value) || 0) + (parseFloat(subj_cost_improvement) || 0))) - (parseFloat(subj_depreciated_value) || 0)).toFixed(2);
-    $("#subj_total_value").val(total);
 }
 
 
@@ -479,113 +401,55 @@ $('#appraisal_form').validator().on('submit', function (e) {
         var subj_id_appraisal = $("#subj_id_appraisal").val();
         var subj_property_name = $("#subj_property_name").val();
         var subj_property_type = $("#subj_property_type").val();
-        alert(subj_property_type);
+
         var prpty1_property_name= $("#prpty1_property_name").val();
         var prpty1_region= $("#prpty1_region").val();
         var prpty1_province= $("#prpty1_province").val();
         var prpty1_city= $("#prpty1_city").val();
         var prpty1_barangay= $("#prpty1_barangay").val();
         var prpty1_property_location= $("#prpty1_property_location").val();
-        var prpty1_dtInspection= $("#prpty1_dtInspection").val();
-        var prpty1_dtAppraisal= $("#prpty1_dtAppraisal").val();
-        var prpty1_reg_deeds= $("#prpty1_reg_deeds").val();
-        var prpty1_house_model= $("#prpty1_house_model").val();
-        var prpty1_num_storey= $("#prpty1_num_storey").val();
-        var prpty1_rental_rate= $("#prpty1_rental_rate").val();
-        var prpty1_lot_area= $("#prpty1_lot_area").val();
-        var prpty1_floor_area= $("#prpty1_floor_area").val();
-        var prpty1_effective_age= $("#prpty1_effective_age").val();
-        var prpty1_total_ecolife= $("#prpty1_total_ecolife").val();
-        var prpty1_remaining_ecolife= $("#prpty1_remaining_ecolife").val();
-        var prpty1_remarks= $("#prpty1_remarks").val();
         var prpty1_lot_value= $("#prpty1_lot_value").val();
-        var prpty1_completion= $("#prpty1_completion").val();
-        var prpty1_house_value= $("#prpty1_house_value").val();
-        var prpty1_depreciated_value= $("#prpty1_depreciated_value").val();
-        var prpty1_cost_improvement= $("#prpty1_cost_improvement").val();
-        var prpty1_total_value= $("#prpty1_total_value").val();
-
+        
         var prpty2_property_name= $("#prpty2_property_name").val();
         var prpty2_region= $("#prpty2_region").val();
         var prpty2_province= $("#prpty2_province").val();
         var prpty2_city= $("#prpty2_city").val();
         var prpty2_barangay= $("#prpty2_barangay").val();
         var prpty2_property_location= $("#prpty2_property_location").val();
-        var prpty2_dtInspection= $("#prpty2_dtInspection").val();
-        var prpty2_dtAppraisal= $("#prpty2_dtAppraisal").val();
-        var prpty2_reg_deeds= $("#prpty2_reg_deeds").val();
-        var prpty2_house_model= $("#prpty2_house_model").val();
-        var prpty2_num_storey= $("#prpty2_num_storey").val();
-        var prpty2_rental_rate= $("#prpty2_rental_rate").val();
-        var prpty2_lot_area= $("#prpty2_lot_area").val();
-        var prpty2_floor_area= $("#prpty2_floor_area").val();
-        var prpty2_effective_age= $("#prpty2_effective_age").val();
-        var prpty2_total_ecolife= $("#prpty2_total_ecolife").val();
-        var prpty2_remaining_ecolife= $("#prpty2_remaining_ecolife").val();
-        var prpty2_remarks= $("#prpty2_remarks").val();
         var prpty2_lot_value= $("#prpty2_lot_value").val();
-        var prpty2_completion= $("#prpty2_completion").val();
-        var prpty2_house_value= $("#prpty2_house_value").val();
-        var prpty2_depreciated_value= $("#prpty2_depreciated_value").val();
-        var prpty2_cost_improvement= $("#prpty2_cost_improvement").val();
-        var prpty2_total_value= $("#prpty2_total_value").val();
-
+        
         var prpty3_property_name= $("#prpty3_property_name").val();
         var prpty3_region= $("#prpty3_region").val();
         var prpty3_province= $("#prpty3_province").val();
         var prpty3_city= $("#prpty3_city").val();
         var prpty3_barangay= $("#prpty3_barangay").val();
         var prpty3_property_location= $("#prpty3_property_location").val();
-        var prpty3_dtInspection= $("#prpty3_dtInspection").val();
-        var prpty3_dtAppraisal= $("#prpty3_dtAppraisal").val();
-        var prpty3_reg_deeds= $("#prpty3_reg_deeds").val();
-        var prpty3_house_model= $("#prpty3_house_model").val();
-        var prpty3_num_storey= $("#prpty3_num_storey").val();
-        var prpty3_rental_rate= $("#prpty3_rental_rate").val();
-        var prpty3_lot_area= $("#prpty3_lot_area").val();
-        var prpty3_floor_area= $("#prpty3_floor_area").val();
-        var prpty3_effective_age= $("#prpty3_effective_age").val();
-        var prpty3_total_ecolife= $("#prpty3_total_ecolife").val();
-        var prpty3_remaining_ecolife= $("#prpty3_remaining_ecolife").val();
-        var prpty3_remarks= $("#prpty3_remarks").val();
         var prpty3_lot_value= $("#prpty3_lot_value").val();
-        var prpty3_completion= $("#prpty3_completion").val();
-        var prpty3_house_value= $("#prpty3_house_value").val();
-        var prpty3_depreciated_value= $("#prpty3_depreciated_value").val();
-        var prpty3_cost_improvement= $("#prpty3_cost_improvement").val();
-        var prpty3_total_value= $("#prpty3_total_value").val();
-
+        
         var subj_dtInspection= $("#subj_dtInspection").val();
         var subj_dtAppraisal= $("#subj_dtAppraisal").val();
         var subj_reg_deeds= $("#subj_reg_deeds").val();
         var subj_house_model= $("#subj_house_model").val();
         var subj_num_storey= $("#subj_num_storey").val();
-        var subj_rental_rate= $("#subj_rental_rate").val();
         var subj_lot_area= $("#subj_lot_area").val();
-        var subj_floor_area= $("#subj_floor_area").val();
         var subj_effective_age= $("#subj_effective_age").val();
         var subj_total_ecolife= $("#subj_total_ecolife").val();
         var subj_remaining_ecolife= $("#subj_remaining_ecolife").val();
         var subj_remarks= $("#subj_remarks").val();
-        var subj_lot_value= $("#subj_lot_value").val();
-        var subj_completion= $("#subj_completion").val();
         var subj_house_value= $("#subj_house_value").val();
-        var subj_depreciated_value= $("#subj_depreciated_value").val();
-        var subj_cost_improvement= $("#subj_cost_improvement").val();
-        var subj_total_value= $("#subj_total_value").val();
+        
+        var average_lot_value = parseFloat(((parseInt(prpty1_lot_value) || 0 ) + (parseInt(prpty2_lot_value) || 0) + (parseInt(prpty3_lot_value) || 0)) / 3).toFixed(2);
+        // alert("Apppraisal Average Lot Value : " + average_lot_value);
 
-        
-        
-        var appraisal_total_value = parseFloat(((parseInt(prpty1_total_value) || 0) + (parseInt(prpty2_total_value) || 0) + (parseInt(prpty3_total_value)) || 0) / 3).toFixed(2);
-        alert(appraisal_total_value);
-        var appraisal_lot_value = parseFloat(((parseInt(prpty1_lot_value) || 0 ) + (parseInt(prpty2_lot_value) || 0) + (parseInt(prpty3_lot_value) || 0)) / 3).toFixed(2);
-        alert(appraisal_lot_value);
-        var appraisal_house_value = parseFloat(((parseInt(prpty1_house_value) || 0) + parseInt(prpty2_house_value) + (parseInt(prpty3_house_value) || 0)) / 3).toFixed(2);
-        alert(appraisal_house_value);
-        var appraisal_cost_of_improvement = parseFloat(((parseInt(prpty1_cost_improvement) || 0) + (parseInt(prpty2_cost_improvement) || 0) + (parseInt(prpty3_cost_improvement) || 0)) / 3).toFixed(2);
-        alert(appraisal_cost_of_improvement);
-        var appraisal_depreciated_value = parseFloat(((parseInt(prpty1_depreciated_value) || 0) + (parseInt(prpty2_depreciated_value) || 0) + (parseInt(prpty3_depreciated_value) || 0)) / 3).toFixed(2);
-        alert(appraisal_depreciated_value);
+
+        var appraisal_total_lot_value = parseFloat(average_lot_value * (parseInt(subj_lot_area) || 0)).toFixed(2);
+        // alert("Apppraisal Total Lot Value : " + appraisal_total_lot_value);
+
+        var appraisal_total_house_value = parseFloat(((parseInt(subj_house_value) || 0 ) / (parseInt(subj_total_ecolife) || 0)) * (parseInt(subj_remaining_ecolife) || 0) || 0).toFixed(2);
+        // alert("Apppraisal Total House Value : " + appraisal_total_house_value);
+
+        var appraisal_total_property_value = parseFloat((parseFloat(appraisal_total_lot_value) || 0 ) + (parseFloat(appraisal_total_house_value) || 0)).toFixed(2);
+        // alert("Apppraisal Total Property Value :" + appraisal_total_property_value);
 
         $.ajax({
             url: "/appraised",
@@ -597,23 +461,22 @@ $('#appraisal_form').validator().on('submit', function (e) {
                 }
             },
             data: {
-                prpty1_property_name : prpty1_property_name, prpty1_region : prpty1_region, prpty1_province : prpty1_province, prpty1_city : prpty1_city, prpty1_barangay : prpty1_barangay, prpty1_dtInspection : prpty1_dtInspection, prpty1_dtAppraisal : prpty1_dtAppraisal, prpty1_reg_deeds : prpty1_reg_deeds, prpty1_num_storey : prpty1_num_storey, prpty1_rental_rate : prpty1_rental_rate, prpty1_lot_area : prpty1_lot_area, prpty1_floor_area : prpty1_floor_area, prpty1_effective_age : prpty1_effective_age, prpty1_total_ecolife : prpty1_total_ecolife, prpty1_remaining_ecolife : prpty1_remaining_ecolife, prpty1_remarks : prpty1_remarks, prpty1_lot_value : prpty1_lot_value, prpty1_completion : prpty1_completion, prpty1_house_value : prpty1_house_value, prpty1_depreciated_value : prpty1_depreciated_value, prpty1_cost_improvement : prpty1_cost_improvement, prpty1_total_value : prpty1_total_value, prpty1_property_location : prpty1_property_location, prpty1_house_model :  prpty1_house_model,
-                prpty2_property_name : prpty2_property_name, prpty2_region : prpty2_region, prpty2_province : prpty2_province, prpty2_city : prpty2_city, prpty2_barangay : prpty2_barangay, prpty2_dtInspection : prpty2_dtInspection, prpty2_dtAppraisal : prpty2_dtAppraisal, prpty2_reg_deeds : prpty2_reg_deeds, prpty2_num_storey : prpty2_num_storey, prpty2_rental_rate : prpty2_rental_rate, prpty2_lot_area : prpty2_lot_area, prpty2_floor_area : prpty2_floor_area, prpty2_effective_age : prpty2_effective_age, prpty2_total_ecolife : prpty2_total_ecolife, prpty2_remaining_ecolife : prpty2_remaining_ecolife, prpty2_remarks : prpty2_remarks, prpty2_lot_value : prpty2_lot_value, prpty2_completion : prpty2_completion, prpty2_house_value : prpty2_house_value, prpty2_depreciated_value : prpty2_depreciated_value, prpty2_cost_improvement : prpty2_cost_improvement, prpty2_total_value : prpty2_total_value, prpty2_property_location : prpty2_property_location, prpty2_house_model :  prpty2_house_model,
-                prpty3_property_name : prpty3_property_name, prpty3_region : prpty3_region, prpty3_province : prpty3_province, prpty3_city : prpty3_city, prpty3_barangay : prpty3_barangay, prpty3_dtInspection : prpty3_dtInspection, prpty3_dtAppraisal : prpty3_dtAppraisal, prpty3_reg_deeds : prpty3_reg_deeds, prpty3_num_storey : prpty3_num_storey, prpty3_rental_rate : prpty3_rental_rate, prpty3_lot_area : prpty3_lot_area, prpty3_floor_area : prpty3_floor_area, prpty3_effective_age : prpty3_effective_age, prpty3_total_ecolife : prpty3_total_ecolife, prpty3_remaining_ecolife : prpty3_remaining_ecolife, prpty3_remarks : prpty3_remarks, prpty3_lot_value : prpty3_lot_value, prpty3_completion : prpty3_completion, prpty3_house_value : prpty3_house_value, prpty3_depreciated_value : prpty3_depreciated_value, prpty3_cost_improvement : prpty3_cost_improvement, prpty3_total_value : prpty3_total_value, prpty3_property_location : prpty3_property_location, prpty3_house_model :  prpty3_house_model,
-                subj_property_name : subj_property_name, subj_dtInspection : subj_dtInspection, subj_dtAppraisal : subj_dtAppraisal, subj_reg_deeds : subj_reg_deeds, subj_num_storey : subj_num_storey, subj_rental_rate : subj_rental_rate, subj_lot_area : subj_lot_area, subj_floor_area : subj_floor_area, subj_effective_age : subj_effective_age, subj_total_ecolife : subj_total_ecolife, subj_remaining_ecolife : subj_remaining_ecolife, subj_remarks : subj_remarks, subj_lot_value : subj_lot_value, subj_completion : subj_completion, subj_house_value : subj_house_value, subj_depreciated_value : subj_depreciated_value, subj_cost_improvement : subj_cost_improvement, subj_total_value : subj_total_value, subj_house_model :  subj_house_model,
-                subj_id_appraisal : subj_id_appraisal, appraisal_total_value : appraisal_total_value, appraisal_lot_value : appraisal_lot_value, 
-                appraisal_house_value : appraisal_house_value, appraisal_cost_of_improvement : appraisal_cost_of_improvement, appraisal_depreciated_value : appraisal_depreciated_value, 
-               subj_property_type : subj_property_type
+                prpty1_property_name : prpty1_property_name, prpty1_region : prpty1_region, prpty1_province : prpty1_province, prpty1_city : prpty1_city, prpty1_barangay : prpty1_barangay, prpty1_lot_value : prpty1_lot_value, prpty1_property_location : prpty1_property_location,
+                prpty2_property_name : prpty2_property_name, prpty2_region : prpty2_region, prpty2_province : prpty2_province, prpty2_city : prpty2_city, prpty2_barangay : prpty2_barangay, prpty2_lot_value : prpty2_lot_value, prpty2_property_location : prpty2_property_location,
+                prpty3_property_name : prpty3_property_name, prpty3_region : prpty3_region, prpty3_province : prpty3_province, prpty3_city : prpty3_city, prpty3_barangay : prpty3_barangay, prpty3_lot_value : prpty3_lot_value, prpty3_property_location : prpty3_property_location,
+                subj_property_name : subj_property_name, subj_dtInspection : subj_dtInspection, subj_dtAppraisal : subj_dtAppraisal, subj_reg_deeds : subj_reg_deeds, subj_num_storey : subj_num_storey, subj_lot_area : subj_lot_area, subj_effective_age : subj_effective_age, 
+                subj_total_ecolife : subj_total_ecolife, subj_remaining_ecolife : subj_remaining_ecolife, subj_remarks : subj_remarks, subj_house_value : subj_house_value, subj_house_model :  subj_house_model,
+                subj_id_appraisal : subj_id_appraisal, subj_property_type : subj_property_type,
+                average_lot_value : average_lot_value, appraisal_total_lot_value : appraisal_total_lot_value, appraisal_total_house_value : appraisal_total_house_value, appraisal_total_property_value : appraisal_total_property_value
+
         },
             success:function(data){
                 if(data == 'error'){
                     $("#formErrorMessage").show();
                     $btnAppraiseProperty.button('reset');  
                 } else{
-                    $('#successAppraisePropertyName').text(subj_property_name);
-                    $('#successAppraiseValue').text(appraisal_total_value);
-                    $('#modalSuccessfulCreation').modal('show');
-                    $btnAppraiseProperty.button('reset');
+                    $('#container').html(data);
+                    $('.loading').addClass('hide');
                 }
                 
             },error:function(data){ 
@@ -893,52 +756,3 @@ $(document).on('change','#prpty3_city',function(){
         }
     });
 });
-
-$('#formAddImage').validator().on('submit', function (e) {
-    if (e.isDefaultPrevented()) {
-        // handle the invalid form...
-    } else {
-        $('#loadingAppraiser').addClass('overlay');
-        $('#loadingAppraiserDesign').addClass('fa fa-refresh fa-spin')
-        /* 
-            for create appraiser loading state
-        */
-        var $btnAddAppraisedPropertyImage = $('#btnAddAppraisedPropertyImage');
-        $btnAddAppraisedPropertyImage.button('loading');
-        /*
-        Submit data to the controller using ajax
-        */
-        
-        var formData = new FormData($('#formAddImage')[0]);
-        
-        $.ajax({
-            url: "appraised/add_appraised_property_images",
-            type:"POST",
-            processData: false,
-            contentType: false,
-            cache: false,
-            beforeSend: function (xhr) {
-                var token = $('meta[name="csrf_token"]').attr('content');
-                if (token) {
-                      return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                }
-            },
-            data: formData,
-            success:function(data){
-                console.log(data);
-                if(data == 'error'){
-                    $("#formErrorMessage").show();
-                    $btnAddAppraisedPropertyImage.button('reset');  
-                } else{
-                    $('#modalAddAppraiser').modal('hide');
-                    $('#modalSuccessfulCreation').modal('show');
-                    $btnAddAppraisedPropertyImage.button('reset');
-                }
-                
-            },error:function(data){ 
-                alert("Error!");
-            }
-        });
-    }
-    return false;
-})

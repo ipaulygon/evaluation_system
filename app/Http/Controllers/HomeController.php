@@ -15,6 +15,7 @@ use App\Models\HouseModel;
 use App\Models\AppraiseProperty;
 use App\Models\Property;
 use App\Models\Appraisal;
+use App\Models\AppraisePropertyPicture;
 use App\SellProperty;
 
 class HomeController extends Controller
@@ -33,12 +34,15 @@ class HomeController extends Controller
     public function index()
     {
         $properties = DB::select(DB::raw('
-        SELECT * 
+        SELECT 
+            p.id_property as id_property, p.property_name as property_name, p.property_type as property_type, p.lot_area as lot_area, sp.price as price, (SELECT picture_path FROM tbl_appraisal_property_picture as ap WHERE ap.id_property=p.id_property LIMIT 1) as picture
             FROM tbl_sell_property AS sp
             JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
             JOIN tbl_property AS p ON a.id_property = p.id_property
             JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
             WHERE p.ind_deleted=0 AND p.property_status = 4
+            ORDER BY p.id_property
+            LIMIT 6
         '));
         $regions = Region::where('ind_deleted',0)->orderBy('region_code')->get();
         $provinces = Province::where('ind_deleted',0)->where('id_region',$regions->first()->id_region)->orderBy('province_code')->get();
@@ -83,7 +87,7 @@ class HomeController extends Controller
         $property = Property::findOrFail($request->id);
         $appraisal = Appraisal::where('id_property',$request->id)->orderBy('create_date','desc')->first();
         $appraisal_property = AppraiseProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
-        return response()->json("<label>Appraisal Value: PhP ".number_format($appraisal_property->total_property_value,2)."</label>");
+        return response()->json(["<label>Appraisal Value: PhP ".number_format($appraisal_property->total_property_value,2)."</label>",$appraisal->id_appraisal]);
     }
 
     public function GetSearch(Request $request){
@@ -114,7 +118,7 @@ class HomeController extends Controller
         JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
         JOIN tbl_property AS p ON a.id_property = p.id_property
         JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
-        WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.id_property = "'.$request->property.'"  AND p.property_status = 4
+        WHERE p.ind_deleted=0 AND p.id_property = "'.$request->property.'"  AND p.property_status = 4
         '));
         $max = DB::select(DB::raw('
         SELECT MAX(price) as maximum
@@ -125,13 +129,13 @@ class HomeController extends Controller
         WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_status = 4
         '));
         $rank = DB::select(DB::raw('
-            SELECT @rank:=@rank+1 as rank, p.id_property as property
+            SELECT @rank:=@rank+1 as rank, p.id_property as property, price
             FROM tbl_sell_property AS sp
             JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
             JOIN tbl_property AS p ON a.id_property = p.id_property
             JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
             WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_status = 4
-            GROUP BY p.id_property
+            ORDER BY price DESC
         '));
         $all = DB::select(DB::raw('
             SELECT COUNT(p.id_property) as total
@@ -140,7 +144,7 @@ class HomeController extends Controller
             JOIN tbl_property AS p ON a.id_property = p.id_property
             JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
             WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_status = 4
-            GROUP BY p.id_property
+            ORDER BY p.id_property
         '));
         return response()->json(['min'=>$min,'current'=>$current,'max'=>$max,'rank'=>$rank,'all'=>$all]);
     }

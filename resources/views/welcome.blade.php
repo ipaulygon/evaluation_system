@@ -25,7 +25,7 @@
                     <div class="box box-primary">
                         <div class="box-header">
                             <center>
-                                <img class="card-img-top" src="{{ URL::asset('assets/temp/images/model/model.jpg') }}" height="250px" width="100%" alt="Card image">
+                                <img class="card-img-top" src="{{ URL::asset($property->picture) }}" height="250px" width="100%" alt="Card image">
                             </center>
                         </div>
                         <div class="box-body">

@@ -113,7 +113,7 @@ $(document).on('click', '.btnAcceptSeller', function () {
                 $('#loadingSeller').addClass('overlay');
                 $('#loadingSellerDesign').addClass('fa fa-refresh fa-spin')
                 $.ajax({
-                    url: "seller/accept",
+                    url: "/seller/accept",
                     type:"POST",
                     beforeSend: function (xhr) {
                         var token = $('meta[name="csrf_token"]').attr('content');

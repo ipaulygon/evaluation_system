@@ -2,7 +2,7 @@
 
 @section('title', 'My Properties')
 @section('content')
-    <div class="container">
+    <div class="container" id="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
@@ -76,6 +76,10 @@
                                                     <button type="button" class="btn btn-sm btn-default btnDeleteProperty" data-toggle="tooltip" title="Delete">
                                                         REJECT
                                                     </button>
+                                                @elseif($appraisal->appraisal_status==2)
+                                                    <a class="btn btn-sm btn-default btnShowAppraiseProperty" data-toggle="tooltip" title="View">
+                                                        VIEW
+                                                    </a>
                                                 @endif
                                             </div>
                                         </td>
@@ -110,15 +114,32 @@
 
 
 @section('script')
-    
     <script>
         $('#dtblAppraisal').dataTable();
             $('document').ready(function(){
                 $('.loading').addClass('hide');
-                $('#dtblAppraisal tbody').on('click', '.clickable-row', function () {
-                    window.location = $(this).data("href");
-                } );
-
         });
+        $(document).on('click','.btnShowAppraiseProperty', function(){
+            var id = $(this).parent().parent().parent().find('.classAppraisalPrimaryKey').text(); 
+            $.ajax({
+                type: "POST",
+                url: "/view_appraised_property",
+                data: {id: id},
+                beforeSend: function (xhr) {
+                    var token = $('meta[name="csrf_token"]').attr('content');
+                    if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                    }
+                },
+                success:function(data){
+                    $('#container').html(data);
+                    $('.loading').addClass('hide');                    
+                },
+                error:function(data){
+                    alert('error');
+                }
+            });
+        });
+        
     </script>
 @stop

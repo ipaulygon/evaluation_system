@@ -10,9 +10,6 @@ class AppraisePropertyPicture extends Model
 	protected $table = 'tbl_appraisal_property_picture';
 	protected $primaryKey = 'id_property_picture';
 
-	public function appraiseProperty(){
-		return $this->hasOne('\App\Models\AppraiseProperty','id_appraise_property','id_appraise_property');
-	}
 
     
 	

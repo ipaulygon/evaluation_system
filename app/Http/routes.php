@@ -23,9 +23,9 @@ Route::get("/show_property/{id}","HomeController@ShowProperty");
 Route::post("/property_count","HomeController@PropertyCount");
 Route::post("/get_statistics","HomeController@Statistics");
 Route::post("/get_appraised_value","HomeController@AppraisedValue");
-Route::get('/appraised_property', function(){
-    return view('appraiser.appraised');
-});
+// Route::get('/appraised_property', function(){
+//     return view('appraiser.appraised');
+// });
 
 Route::post("/get_search","HomeController@GetSearch");
 
@@ -39,11 +39,11 @@ Route::group(['middleware' => 'auth'], function(){
             return Redirect::to('/appraisers');
         }else if(Auth::user()->user_type == 1){
             return Redirect::to('/request_appraisals');
-        }else if(Auth::user()->user_type == 2 && Auth::user()->seller->isActive==1){
+        }else if(Auth::user()->user_type == 2 && Auth::user()->seller->ind_active==1){
             return Redirect::to('/my_properties');
         }else{
             \Auth::logout();
-            $request->session()->flash('error', "You are still pending for selling properties.");
+            // $request->session()->flash('error', "You are still pending for selling properties.");
             return Redirect::to('/login');
         }
     });
@@ -270,6 +270,7 @@ Route::group(['middleware' => 'auth'], function(){
             'uses' => 'appraiserController@load_appraisal',
             'as' => 'appraiser.appraise'
         ));
+        Route::post('/view_appraised_property','appraiserController@viewAppraisal');
     });
     Route::group(['middleware'=>'seller'], function(){
         Route::get('/my_properties', array(
@@ -286,6 +287,9 @@ Route::group(['middleware' => 'auth'], function(){
         ));
         Route::post('/publish_property', 'sellerController@PublishProperty');
         Route::post('/sold_property', 'sellerController@SoldProperty');
+        Route::post('/add_property_images','sellerController@uploadImage');
+        Route::post('/view_property','sellerController@viewProperty');        
+        Route::post('/remove_picture','sellerController@removePicture');        
     });
 });
 

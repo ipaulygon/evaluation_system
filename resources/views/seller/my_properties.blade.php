@@ -59,6 +59,12 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
+                                                <button type="button" class="btn btn-sm btn-default btnViewProperty" data-toggle="modal" data-target="#modalViewProperty" title="View Property">
+                                                    VIEW
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-default btnUploadProperty" data-toggle="modal" data-target="#modalUploadProperty" title="Upload Property">
+                                                    UPLOAD
+                                                </button>
                                                 @if($property->property_status == 0)
                                                 <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Appraise">
                                                     APPRAISE
@@ -140,7 +146,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group  col-sm-12">
-                                                <label for="inputTCTNumber">TCT Nubmer</label>
+                                                <label for="inputTCTNumber">TCT Number</label>
                                                 <input type="text" class="form-control" id="inputTCTNumber" required>
                                             </div>
                                             <div class="form-group  col-sm-12">
@@ -203,6 +209,22 @@
         </div>
         <!-- MODAL ADD PROPERTY-->
 
+        <!-- MODAL ADD PROPERTY -->
+        <div class="modal fade" id="modalViewProperty" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Property</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>    
+                    </div>
+                    <div id="viewDetails">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL ADD PROPERTY-->
+
 
         <!-- MODAL SUCCESSFUL CREATION -->
         <div class="modal fade" id="modalSuccessfulCreation" role="dialog">
@@ -224,8 +246,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal" id="btnCreateAnotherProperty">CREATE ANOTHER PROPERTY</button>
-                        <button type="button" id="btnPrint" class="btn btn-default">PRINT</button>
-                        <button type="button" id="btnSendEmail" class="btn btn-success">SEND EMAIL</button>
                     </div>
                 </div>
             </div>
@@ -250,61 +270,37 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" id="btnCreateAnotherProperty">CREATE ANOTHER PROPERTY</button>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- MODAL SUCCESSFUL CREATION -->
 
-        <!-- MODAL RENAME Appraiser -->
-        <div class="modal fade" id="modalRenameAppraiser" role="dialog">
+        <div class="modal fade" id="modalSuccessfulPublish" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Rename Appraiser</h4>
+                        <h4 class="modal-title">Property</h4>
                     </div>
-
-                    <form role="form" data-toggle="validator" id="formRename">
-                        <div class="modal-body">
-                            <div class="box-body">
-                                <p>Before renaming this user, ask the appraiser to sign out of his or her account. After you rename this appraiser:</p>
-                                <ul>
-                                    <li>The rename operation can take up to 5 minutes.</li>
-                                    <li>The new name might not be available for up to 5 minutes.</li>
-                                </ul>
-                                <p class="help-block col-sm-12" id="formErrorMessageRename" style="color:red;">
-                                    Something went wrong, please check your inputs.
-                                </p>
-                                <div class="form-group  col-sm-4">
-                                    <input type="text" class="form-control" id="inputFirstnameRename" placeholder="First Name" size="45" required>
-                                </div>
-                                <div class="form-group  col-sm-4">
-                                    <input type="text" class="form-control" id="inputMiddlenameRename" placeholder="Middle Name" size="45">
-                                </div>
-                                <div class="form-group  col-sm-4">
-                                    <input type="text" class="form-control" id="inputLastnameRename" placeholder="Last Name" size="45" required>
-                                </div>
-                                <p class="help-block"></p>
-                                <div class="form-group  col-sm-6">
-                                    <input type="hidden" class="form-control" id="inputAppraiserPrimaryKey">
-                                </div>
-                            </div>
+                    <div class="modal-body">
+                        <p>
+                            <img class="img-responsive" src="assets/image/icons/successIcon.png" alt="Success Icon" width="20px" align="left">
+                            &nbsp; Property has been published.
+                        </p>
+                        <div class="successMessage">
+                            
                         </div>
-                        <div class="modal-footer">
-                            <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                            <span class="form-group">
-                                <button type="submit" id="btnRenameAppraiserSubmit" class="btn btn-success">Rename Appraiser</button>
-                            </span>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- MODAL RENAME APPRAISER-->
-
+        <!-- MODAL SUCCESSFUL CREATION -->
         
         <!-- MODAL SUCCESSFUL RENAME -->
         <div class="modal fade" id="modalSuccessfulRequestAppraisal" role="dialog">
@@ -388,61 +384,6 @@
         </div>
         <!-- MODAL REQUEST APPRAISAL-->
         
-        
-        <!-- MODAL SUCCESSFUL SUSPEND APPRAISER -->
-        <div class="modal fade" id="modalSuspendAppraiserSuccess" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Suspend Appraiser</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            <img class="img-responsive" src="assets/image/icons/successIcon.png" alt="Success Icon" width="20px" align="left">
-                            &nbsp; Suspend appraiser success.
-                        </p>
-                        <div class="successMessage">
-                            <p>Appraiser <span id="suspendedAppraiser" class="credentials"></span> is now suspended</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnPrint" class="btn btn-success">PRINT</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- MODAL SUCCESSFUL SUSPEND APPRAISER -->
-
-        <!-- MODAL SUCCESSFUL RESTORE APPRAISER -->
-        <div class="modal fade" id="modalRestoredAppraiserSuccess" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Restore Appraiser</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            <img class="img-responsive" src="assets/image/icons/successIcon.png" alt="Success Icon" width="20px" align="left">
-                            &nbsp; Restore appraiser success.
-                        </p>
-                        <div class="successMessage">
-                            <p>Appraiser <span id="restoredAppraiser" class="credentials"></span> is now restored</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <button type="button" id="btnPrint" class="btn btn-success">PRINT</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- MODAL SUCCESSFUL RESTORE APPRAISER -->
-        
         <div class="modal fade" id="modalPublishProperty" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -454,8 +395,9 @@
                             </div>
                             <div class="modal-body">
                                 <center>Do you want to publish this property?</center>
-                                <input type="hidden" name="id" id="publishId" value="">
-                                <span id="appraisedValue">Appraised Value: </span>
+                                <input type="hidden" name="propertyId" id="propertyId" value="">
+                                <input type="hidden" name="appraisalId" id="appraisalId" value="">
+                                <span id="appraisedValue" class="hidden">Appraised Value: </span>
                                 <div class="form-group">
                                     <label for="">Price</label>
                                     <input type="text" name="price" id="price" class="form-control" required>
@@ -473,6 +415,35 @@
                     </div>
                 </div>
         </div>
+        <div class="modal fade" id="modalUploadProperty" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form role="form" data-toggle="validator" id="formUpload" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="box-body">
+                                <p class="help-block col-sm-12" id="formErrorMessageUpload" style="color:red;">
+                                    Something went wrong, please check your inputs.
+                                </p>
+                                <center><img class="img-responsive" id="inputDisplayPicture" src="{{ URL::asset('assets/image/avatar/AdminAvatar.jpg')}}" style="max-width:150px; background-size: contain" /></center>
+                                <div class="row">
+                                    <center>
+                                        <input type="file" class="btn btn-primary btn-sm" name="inputPicture" id="inputPicture" onchange="readURL(this)" required>
+                                    </center>
+                                </div>
+                                <input type="hidden" name="propertyId" id="uploadPropertyId">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                            <span class="form-group">
+                                <button type="submit" id="btnUploadImage" class="btn btn-success">Create</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </section>
 @stop
 

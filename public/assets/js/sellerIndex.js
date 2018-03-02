@@ -1,9 +1,9 @@
 $('#dtblProperty').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblProperty tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblProperty tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 
@@ -159,17 +159,24 @@ $(document).on('click','.btnPublishProperty',function(){
         type: "POST",
         url: "/get_appraised_value",
         data: {id: id},
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
         success: function(data){
-            $('#appraisedValue').html(data);
+            $('#appraisedValue').html(data[0]);
+            $('#appraisalId').val(data[1]);
+            $('#propertyId').val(id);    
         },
         error: function(data){
             alert("error!");
         }
     });
-    $('#publishId').val(id);    
 });
 
-$('#btnPublish').validator().on('submit',function(e){
+$('#formPublish').validator().on('submit',function(e){
     e.preventDefault();
     var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
     var $btnPublish= $('#btnPublish');
@@ -186,8 +193,9 @@ $('#btnPublish').validator().on('submit',function(e){
         data: $('#formPublish').serialize(),
         success:function(data){
             $('#propertyTable').html(data);  
-            $('#modalRequestAppraisal').modal('hide');  
-            $btnPublish.button('reset');                                
+            $('#modalPublishProperty').modal('hide');  
+            $btnPublish.button('reset');            
+            $('#modalSuccessfulPublish').modal('show');                    
         },error:function(data){ 
             alert("Error!");
         }
@@ -317,7 +325,112 @@ $(document).on('change','#city',function(){
     });
 });
 
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#inputDisplayPicture')
+                .attr('src', e.target.result)
+                .width(180);
+            };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
+$(document).on('click', '.btnViewProperty', function(e){
+    e.preventDefault();
+    var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    $.ajax({
+        type: "POST",
+        url: "/view_property",
+        data: {id: id},
+        cache: false,
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        success:function(data){
+            $('#viewDetails').html(data);
+            $('#modalViewProperty').modal('show');
+        },
+        error:function(data){
+            alert('error!');
+        }
+    });  
+});
+
+$(document).on('click','#removePic',function(e){
+    e.preventDefault();
+    var confirm = window.confirm("Do you really want to remove this image?");
+    var id = $(this).attr('data-id');
+    if(confirm){
+        $.ajax({
+            type: "POST",
+            url: "/remove_picture",
+            data: {id : id},
+            cache: false,
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            success:function(data){
+                $('#picture'+id).addClass('hidden');
+                alert('Image removed');
+            },
+            error:function(data){
+
+            }
+        })
+    }
+});
+
+$(document).on('click', '.btnUploadProperty', function(){
+    $('#formErrorMessageUpload').hide();
+    var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    $('#uploadPropertyId').val(id);    
+});
+
+$('#formUpload').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+        // handle the invalid form...
+    } else {
+        var $btnUpload = $('#btnUploadImage');
+        $btnUpload.button('loading');
+        var formData = new FormData($('#formUpload')[0]);
+        $.ajax({
+            url: "/add_property_images",
+            type:"POST",
+            processData: false,
+            contentType: false,
+            cache: false,
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                      return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: formData,
+            // data: { strFirstname : strFirstname, strMiddlename : strMiddlename, strLastname : strLastname, strAppraiserEmail : strAppraiserEmail, strPassword : strPassword, picture: picture },
+            success:function(data){
+                if(data == 'error'){
+                    $("#formErrorMessageUpload").show();
+                    $btnUpload.button('reset');  
+                } else{
+                    $btnUpload.button('reset');
+                    $('#modalUploadProperty').modal('hide');
+                    alert('Success!');
+                }
+            },error:function(data){ 
+                alert("Error!");
+            }
+        });
+    }
+    return false;
+})
 
 
 
