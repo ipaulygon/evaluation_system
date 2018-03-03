@@ -1,67 +1,101 @@
-<div class="box">
-    <div class="box-header">
-        <h3 class="box-title">Seller</h3>
-    </div>
-    <div class="box-body">
-        <table id="dtblSeller" class="table table-bordered table-hover">
-            <thead>
-                <tr>  
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($sellers as $seller)
-                    <tr>
-                        <td class="hide classSellerPrimaryKey">{{$seller->id_seller}}</td>
-                        <td class="hide classFirstname">{{$seller->first_name}}</td>
-                        <td class="hide classMiddlename">{{$seller->middle_name}}</td>
-                        <td class="hide classLastname">{{$seller->last_name}}</td>
-                        <td class="hide classUserID">{{$seller->id_user}}</td>
-                        <td style="cursor: pointer" class="clickable-row name" data-href="seller/show/{{$seller->id_seller}}">
-                            {{$seller->first_name}} {{$seller->last_name}}
-                        </td>
-                        <td class="status">
-                            {{$seller->ind_active==1 ? "Active":"Pending"}}
-                        </td>
-                        <td width="150px">
-                            <div class="btn-group">
-                                @if($seller->ind_active==1)
-                                <button class="btn btn-sm btn-default btnSuspendSeller" data-toggle="tooltip" title="Deactivate">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                                @else
-                                <button class="btn btn-sm btn-default btnAcceptSeller" data-toggle="tooltip" title="Accept Seller">
-                                    <i class="fa fa-check"></i>
-                                </button>
-                                @endif
-                            </div>
-                        </td>
+<div class="col-md-12" id="propertyTable">
+    <div class="box">
+        <div class="box-body">
+            <table id="dtblProperty" class="table table-bordered table-hover">
+                <thead>
+                    <tr>  
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th>Property Name</th>
+                        <th>Property Location</th>
+                        <th>Property Status</th>
+                        <th></th>
                     </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th class="hide"></th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th></th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <div id="loadingSeller">
-        <i id="loadingSellerDesign"></i>
+                </thead>
+                <tbody>
+                    @foreach($properties as $property)
+                        <tr>
+                            <td class="hide classPropertyPrimaryKey">{{$property->id_property}}</td>
+                            <td class="hide classPropertyName">{{$property->property_name}}</td>
+                            <td class="hide classPropertyLocation">{{$property->id_property_location}}</td>
+                            <td class="hide classPropertyLocationAddress">{{$property->propertyLocation->address}}</td>
+                            <td class="hide classSellerID">{{$property->id_seller}}</td>
+                            <td style="cursor: pointer" class="clickable-row name" data-href="property/show/{{$property->id_property}}">
+                                {{$property->property_name}}
+                            </td>
+                            <td class="location">
+                                {{$property->propertyLocation->address}}
+                            </td>
+                            <td class="property_status">
+                                <?php
+                                    $status = null;
+                                    if($property->property_status == 0){$status = "Available for Appraisal";}
+                                    if($property->property_status == 1){$status = "Requested for Appraisal";}
+                                    if($property->property_status == 2){$status = "Appraisal Completed";}
+                                    if($property->property_status == 3){$status = "Re-appraise";}
+                                    if($property->property_status == 4){$status = "Publish";}
+                                    if($property->property_status == 5){$status = "Sold";}
+                                ?>   
+                                {{$status}}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-default btnViewProperty" data-toggle="modal" data-target="#modalViewProperty" title="View Property">
+                                        VIEW
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-default btnUploadProperty" data-toggle="modal" data-target="#modalUploadProperty" title="Upload Property">
+                                        UPLOAD
+                                    </button>
+                                    @if($property->property_status == 0)
+                                    <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Appraise">
+                                        APPRAISE
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-default btnEditProperty" data-toggle="tooltip" title="Edit">
+                                        EDIT
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-default btnDeleteProperty" data-toggle="tooltip" title="Delete">
+                                        DELETE
+                                    </button>
+                                    @endif
+                                    @if($property->property_status == 2)
+                                    <button type="button" class="btn btn-sm btn-default btnPublishProperty" data-toggle="modal" data-target="#modalPublishProperty" title="Publish Property">
+                                        PUBLISH
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Re-appraise">
+                                        RE-APPRAISE
+                                    </button>
+                                    @endif
+                                    @if($property->property_status == 4)
+                                    <button type="button" class="btn btn-sm btn-default btnSoldProperty" data-toggle="tooltip" title="Sold">
+                                        SOLD
+                                    </button>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th class="hide"></th>
+                        <th>Property Name</th>
+                        <th>Property Location</th>
+                        <th>Property Status</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div id="loadingProperty">
+            <i id="loadingPropertyDesign"></i>
+        </div>
     </div>
 </div>
 <script src="{{ URL::asset('assets/js/sellerIndex.js') }}"></script>

@@ -106,6 +106,39 @@ $('#dtblProperty tbody').on('click', '.btnAppraiseProperty', function () {
 
 } );
 
+$('#dtblProperty tbody').on('click', '.btnDeleteProperty', function () {
+    var propertyPrimaryKey = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    var propertyName = $(this).parent().parent().parent().find('.classPropertyName').text();
+    bootbox.confirm({ 
+        size: "small",
+        title: "<b>Delete " + propertyName + "</b>",
+        message:  "This property will be remove to your property list",
+        callback: function(result){ 
+            if(result){
+                $('#loadingProperty').addClass('overlay');
+                $('#loadingPropertyDesign').addClass('fa fa-refresh fa-spin')
+                $.ajax({
+                    url: "/remove_property",
+                    type:"POST",
+                    beforeSend: function (xhr) {
+                        var token = $('meta[name="csrf_token"]').attr('content');
+                        if (token) {
+                              return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                        }
+                    },
+                    data: {propertyPrimaryKey : propertyPrimaryKey},
+                    success:function(data){
+                        $('#propertyTable').html(data);  
+                        $('#modalSuccessfulDelete').modal('show');     
+                    },error:function(data){ 
+                        alert("Error!");
+                    }
+                });
+            }
+        }
+    })
+} );
+
 
 $('#formRequestAppraisal').validator().on('submit', function (e) {
     if (e.isDefaultPrevented()) {

@@ -39,7 +39,7 @@ class propertyController extends Controller
         $property = Property::find($id);
         $seller = Seller::where('id_seller', $property->id_seller);
         if (!is_null($property)){
-            return view('property.show', ['property' => $property, 'seller' => $seller]);
+            return view('seller.show', ['property' => $property, 'seller' => $seller]);
         }else{
             return view('errors.404');
         }  
@@ -58,20 +58,20 @@ class propertyController extends Controller
             ->orderBy('property', 'asc')
             ->get();
         if($request->selFilterValue){
-        	return view('property.Table.propertyDeleteTable', ['properties' => $properties]);
+        	return view('seller.Table.propertyTable', ['properties' => $properties]);
         } else {
-        	return view('property.Table.propertyTable', ['properties' => $properties]);
+        	return view('seller.Table.propertyTable', ['properties' => $properties]);
         }
     }
 
     public function suspend(Request $request){
-    	$property = Property::find($request->strPrimaryKey);
+    	$property = Property::find($request->propertyPrimaryKey);
         if (!is_null($property)){
             $property->ind_deleted = 1;
             $property->delete_date = Carbon\Carbon::now();
             $property->save();
             $propertiesNewDataSet = $this->getPropertyData();
-            return view('property.Table.propertyTable', ['properties' => $propertiesNewDataSet]);
+            return view('seller.Table.propertyTable', ['properties' => $propertiesNewDataSet]);
         }else{
             return "error";	
         }
@@ -85,7 +85,7 @@ class propertyController extends Controller
             $property->update_date = Carbon\Carbon::now();
             $property->save();
             $propertiesNewDataSet = $this->getPropertyData();
-            return view('property.Table.propertyTable', ['properties' => $propertiesNewDataSet]);
+            return view('seller.Table.propertyTable', ['properties' => $propertiesNewDataSet]);
         }else{
             return "error";	
         }

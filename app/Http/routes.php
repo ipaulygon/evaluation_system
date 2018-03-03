@@ -289,7 +289,8 @@ Route::group(['middleware' => 'auth'], function(){
         Route::post('/sold_property', 'sellerController@SoldProperty');
         Route::post('/add_property_images','sellerController@uploadImage');
         Route::post('/view_property','sellerController@viewProperty');        
-        Route::post('/remove_picture','sellerController@removePicture');        
+        Route::post('/remove_picture','sellerController@removePicture'); 
+        Route::post('/remove_property', 'propertyController@suspend');     
     });
 });
 
