@@ -73,7 +73,7 @@
                                                     <a class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" href="/appraise_property/{{$appraisal->id_appraisal}}" title="Appraise">
                                                         APPRAISE
                                                     </a>
-                                                    <button type="button" class="btn btn-sm btn-default btnDeleteProperty" data-toggle="tooltip" title="Delete">
+                                                    <button type="button" class="btn btn-sm btn-default btnRejectProperty" data-toggle="tooltip" title="Reject">
                                                         REJECT
                                                     </button>
                                                 @elseif($appraisal->appraisal_status==2)
@@ -139,6 +139,38 @@
                     alert('error');
                 }
             });
+        });
+        $(document).on('click','.btnRejectProperty', function(){
+            var id = $(this).parent().parent().parent().find('.classAppraisalPrimaryKey').text(); 
+            bootbox.confirm({ 
+                    size: "small",
+                    title: "<b>Reject Appraisal</b>",
+                    message:  "Reject this appraisal?",
+                    callback: function(result){ 
+                        if(result){
+                            $('#loadingProperty').addClass('overlay');
+                            $('#loadingPropertyDesign').addClass('fa fa-refresh fa-spin')
+                            $.ajax({
+                                type: "POST",
+                                url: "/reject_property",
+                                data: {id: id},
+                                beforeSend: function (xhr) {
+                                    var token = $('meta[name="csrf_token"]').attr('content');
+                                    if (token) {
+                                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                                    }
+                                },
+                                success:function(data){
+                                    $('#appraisalTable').html(data);
+                                    $('#dtblAppraisal').dataTable();
+                                },
+                                error:function(data){
+                                    alert('error');
+                                }
+                            });
+                        }
+                    }
+                });
         });
         
     </script>

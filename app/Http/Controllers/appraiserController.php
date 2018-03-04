@@ -52,6 +52,13 @@ class appraiserController extends Controller
         return $appraisers;
     }
 
+    public function getAppraisalRequestData(){
+    	$appraisals = Appraisal::where('ind_deleted', 0)
+            ->orderBy('id_appraisal', 'asc')
+            ->get();
+        return $appraisals;
+    }
+
     public function filter(Request $request){
     	$appraisers = Appraiser::where('ind_deleted', $request->selFilterValue)
             ->orderBy('first_name', 'asc')
@@ -275,7 +282,7 @@ class appraiserController extends Controller
             $appraiseproperty->total_ecolife        = $request->subj_total_ecolife;
             $appraiseproperty->remaining_ecolife    = $request->subj_remaining_ecolife;
             $appraiseproperty->remarks              = $request->subj_remarks;
-            $appraiseproperty->house_value          = $request->house_value;
+            $appraiseproperty->house_value          = $request->subj_house_value;
             $appraiseproperty->ave_lot_value        = $request->average_lot_value;
             $appraiseproperty->total_lot_value      = $request->appraisal_total_lot_value;
             $appraiseproperty->total_house_value 	= $request->appraisal_total_house_value;
@@ -306,5 +313,24 @@ class appraiserController extends Controller
     public function viewAppraisal(Request $request){
         $appraiseproperty = AppraiseProperty::where('id_appraisal',$request->id)->first();
         return view('appraiser.appraised', ['appraiseproperty' => $appraiseproperty]);
+    }
+    
+    public function rejectAppraisal(Request $request){
+        try{
+            DB::beginTransaction();  
+            $appraisal = Appraisal::findOrFail($request->id);
+            $appraisal->ind_deleted = 1;
+            $appraisal->save();
+            $property = Property::where('id_property',$appraisal->id_property)->first();
+            $property->property_status = 0;
+            $property->save();
+            DB::commit();
+            $appraisals = $this->getAppraisalRequestData();
+            return view('appraiser.Table.appraisalTable', ['appraisals' => $appraisals]);
+        }catch (\Illuminate\Database\QueryException $e){
+	        DB::rollBack();	
+	        //return $e->getMessage(); for debugging
+	        return "error";
+        }
     }
 }

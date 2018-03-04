@@ -150,7 +150,7 @@
                                                 <input type="text" class="form-control" id="inputTCTNumber" required>
                                             </div>
                                             <div class="form-group  col-sm-12">
-                                                <label for="inputLotArea">Lot Area</label>
+                                                <label for="inputLotArea">Lot Area (sq. m.)</label>
                                                 <input class="form-control" id="inputLotArea" required>
                                             </div>
                                         </fieldset>

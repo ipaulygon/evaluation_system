@@ -129,12 +129,16 @@ class HomeController extends Controller
         WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_status = 4
         '));
         $rank = DB::select(DB::raw('
-            SELECT @rank:=@rank+1 as rank, p.id_property as property, price
+            SELECT p.id_property as property, price, FIND_IN_SET( price, (
+                SELECT GROUP_CONCAT( price
+                ORDER BY price DESC ) 
+                FROM tbl_sell_property )
+                ) AS rank
             FROM tbl_sell_property AS sp
             JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
             JOIN tbl_property AS p ON a.id_property = p.id_property
             JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
-            WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_status = 4
+            WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.id_property = "'.$request->property.'" AND p.property_status = 4
             ORDER BY price DESC
         '));
         $all = DB::select(DB::raw('

@@ -17,7 +17,7 @@
                             <input type="text" class="form-control" id="inputTCTNumber" value="{{$property->tct_number}}" readonly>
                         </div>
                         <div class="form-group  col-sm-12">
-                            <label for="inputLotArea">Lot Area</label>
+                            <label for="inputLotArea">Lot Area (sq. m.)</label>
                             <input class="form-control" id="inputLotArea" value="{{$property->lot_area}}" readonly>
                         </div>
                     </fieldset>
