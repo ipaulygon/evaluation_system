@@ -275,7 +275,7 @@ class appraiserController extends Controller
             $appraiseproperty->total_ecolife        = $request->subj_total_ecolife;
             $appraiseproperty->remaining_ecolife    = $request->subj_remaining_ecolife;
             $appraiseproperty->remarks              = $request->subj_remarks;
-            $appraiseproperty->house_value          = $request->house_value;
+            $appraiseproperty->house_value          = $request->subj_house_value;
             $appraiseproperty->ave_lot_value        = $request->average_lot_value;
             $appraiseproperty->total_lot_value      = $request->appraisal_total_lot_value;
             $appraiseproperty->total_house_value 	= $request->appraisal_total_house_value;

@@ -67,6 +67,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+        
         $user =  User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -81,7 +82,7 @@ class AuthController extends Controller
             'last_name' => $data['last_name'],
             'isActive' => 0
         ]);
-
-        return view('Auth.login');
+        
+        return $user;
     }
 }
