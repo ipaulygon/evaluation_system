@@ -35,7 +35,7 @@
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
-                <a href="index.php" class="logo">
+                <a href="{{URL::to('/dashboard')}}" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>E</b></span>
                     <!-- logo for regular state and mobile devices -->
@@ -132,19 +132,6 @@
                                 <li><a href="{{ URL::to('/provinces') }}"><i class="fa fa-circle-o"></i> Province</a></li>
                                 <li><a href="{{ URL::to('/cities') }}"><i class="fa fa-circle-o"></i> City / Municipality</a></li>
                                 <li><a href="{{ URL::to('/barangays') }}"><i class="fa fa-circle-o"></i> Barangay</a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-laptop"></i>
-                                <span>System Settings</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="{{ URL::to('/logos') }}"><i class="fa fa-circle-o"></i> Logo</a></li>
-                                <li><a href="{{ URL::to('/covers') }}"><i class="fa fa-circle-o"></i> Cover</a></li>
                             </ul>
                         </li>
                         

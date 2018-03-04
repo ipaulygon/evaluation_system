@@ -1,3 +1,13 @@
+$(document).ready(function(){
+    $(".number").inputmask({ 
+        alias: "currency",
+        prefix: '',
+        allowMinus: false,
+        autoGroup: true,
+        min: 0
+    });
+});
+
 $('#dtblProperty').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');

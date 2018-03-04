@@ -218,7 +218,7 @@ class appraiserController extends Controller
             $comparable->property_name 	        = $request->prpty1_property_name;
             $comparable->id_property_location   = $propertyLocation->id_property_location;
             $comparable->property_type          = $request->subj_property_type;
-            $comparable->lot_value              = $request->prpty1_lot_value;
+            $comparable->lot_value              = str_replace(",","",$request->prpty1_lot_value);
             $comparable->save();
 
             $appraisaldetails = new AppraisalDetails;
@@ -240,7 +240,7 @@ class appraiserController extends Controller
             $comparable->property_name 	        = $request->prpty2_property_name;
             $comparable->id_property_location   = $propertyLocation->id_property_location;
             $comparable->property_type          = $request->subj_property_type;
-            $comparable->lot_value              = $request->prpty2_lot_value;
+            $comparable->lot_value              = str_replace(",","",$request->prpty2_lot_value);
             $comparable->save();
 
             $appraisaldetails = new AppraisalDetails;
@@ -263,7 +263,7 @@ class appraiserController extends Controller
             $comparable->property_name 	        = $request->prpty3_property_name;
             $comparable->id_property_location   = $propertyLocation->id_property_location;
             $comparable->property_type          = $request->subj_property_type;
-            $comparable->lot_value              = $request->prpty3_lot_value;
+            $comparable->lot_value              = str_replace(",","",$request->prpty3_lot_value);
             $comparable->save();
 
             $appraisaldetails = new AppraisalDetails;
@@ -282,7 +282,7 @@ class appraiserController extends Controller
             $appraiseproperty->total_ecolife        = $request->subj_total_ecolife;
             $appraiseproperty->remaining_ecolife    = $request->subj_remaining_ecolife;
             $appraiseproperty->remarks              = $request->subj_remarks;
-            $appraiseproperty->house_value          = $request->subj_house_value;
+            $appraiseproperty->house_value          = str_replace(",","",$request->subj_house_value);
             $appraiseproperty->ave_lot_value        = $request->average_lot_value;
             $appraiseproperty->total_lot_value      = $request->appraisal_total_lot_value;
             $appraiseproperty->total_house_value 	= $request->appraisal_total_house_value;

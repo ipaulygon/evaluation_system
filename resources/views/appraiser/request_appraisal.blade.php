@@ -114,6 +114,10 @@
 
 
 @section('script')
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.extensions.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.numeric.extensions.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/jquery.inputmask.js')}}"></script>
     <script>
         $('#dtblAppraisal').dataTable();
             $('document').ready(function(){
@@ -133,6 +137,13 @@
                 },
                 success:function(data){
                     $('#container').html(data);
+                    $(".number").inputmask({ 
+                        alias: "currency",
+                        prefix: '',
+                        allowMinus: false,
+                        autoGroup: true,
+                        min: 0
+                    });
                     $('.loading').addClass('hide');                    
                 },
                 error:function(data){

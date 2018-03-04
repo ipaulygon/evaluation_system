@@ -91,7 +91,7 @@
                             <div class="form-group">
                                 <label for="subj_house_value" class="col-lg-4 control-label">House Value</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="subj_house_value" placeholder="House Value" value="{{$appraiseproperty->house_value}}" readonly>
+                                    <input type="text" class="form-control number" id="subj_house_value" placeholder="House Value" value="{{$appraiseproperty->house_value}}" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -115,25 +115,25 @@
                             <div class="form-group">
                                 <label for="subj_ave_lot_value" class="col-lg-4 control-label">Average Lot Value</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="subj_ave_lot_value" placeholder="Average Lot Value" value="{{$appraiseproperty->ave_lot_value}}" readonly>
+                                    <input type="text" class="form-control number" id="subj_ave_lot_value" placeholder="Average Lot Value" value="{{$appraiseproperty->ave_lot_value}}" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="subj_total_lot_value" class="col-lg-4 control-label">Total Lot Value</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="subj_total_lot_value" placeholder="Total Lot Value" value="{{$appraiseproperty->total_lot_value}}" readonly>
+                                    <input type="text" class="form-control number" id="subj_total_lot_value" placeholder="Total Lot Value" value="{{$appraiseproperty->total_lot_value}}" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="subj_total_house_value" class="col-lg-4 control-label">Total House Value</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="subj_total_house_value" placeholder="Total House Value" value="{{$appraiseproperty->total_house_value}}" readonly>
+                                    <input type="text" class="form-control number" id="subj_total_house_value" placeholder="Total House Value" value="{{$appraiseproperty->total_house_value}}" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="subj_total_property_value" class="col-lg-4 control-label">Total Property Value</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" id="subj_total_property_value" placeholder="Total Property Value" value="{{$appraiseproperty->total_property_value}}" readonly>
+                                    <input type="text" class="form-control number" id="subj_total_property_value" placeholder="Total Property Value" value="{{$appraiseproperty->total_property_value}}" readonly>
                                 </div>
                             </div>
                         </div>

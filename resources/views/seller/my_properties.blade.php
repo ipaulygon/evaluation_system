@@ -151,7 +151,7 @@
                                             </div>
                                             <div class="form-group  col-sm-12">
                                                 <label for="inputLotArea">Lot Area (sq. m.)</label>
-                                                <input class="form-control" id="inputLotArea" required>
+                                                <input class="form-control number" id="inputLotArea" required>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -425,7 +425,7 @@
                                 <span id="appraisedValue" class="hidden">Appraised Value: </span>
                                 <div class="form-group">
                                     <label for="">Price</label>
-                                    <input type="text" name="price" id="price" class="form-control" required>
+                                    <input type="text" name="price" id="price" class="form-control number" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Remarks</label>
@@ -474,5 +474,9 @@
 
 
 @section('script')
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.extensions.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.numeric.extensions.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/jquery.inputmask.js')}}"></script>
     <script src="{{ URL::asset('assets/js/sellerIndex.js') }}"></script>
 @stop

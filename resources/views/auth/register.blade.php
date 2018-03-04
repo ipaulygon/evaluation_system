@@ -70,6 +70,20 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group{{ $errors->has('contact') ? ' has-error' : '' }}">
+                                    <label for="email" class="col-md-12 control-label">Contact No.</label>
+
+                                    <div class="col-md-12">
+                                        <input id="contact" type="text" class="form-control" name="contact" value="{{ old('contact') }}">
+
+                                        @if ($errors->has('contact'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('contact') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
+
                                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                     <label for="password" class="col-md-12 control-label">Password</label>
 

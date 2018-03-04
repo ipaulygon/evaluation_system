@@ -121,7 +121,7 @@ class propertyController extends Controller
             $property->property_type 	    = $request->intPropertyType;
             $property->property_status      = 0;
             $property->tct_number 	        = $request->strTCTNumber;
-            $property->lot_area 	        = $request->dblLotArea;
+            $property->lot_area 	        = str_replace(",","",$request->dblLotArea);
             $property->ind_deleted = 0;
             // $property->effective_age 	    = $request->intEffectiveAge;
             $property->save();

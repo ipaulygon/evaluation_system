@@ -112,7 +112,7 @@ class sellerController extends Controller
             $property->save();
             SellProperty::create([
                 'id_appraisal' => $request->appraisalId,
-                'price' => $request->price,
+                'price' => str_replace(",","",$request->price),
                 'remarks' => $request->remarks,
                 'counter' => 0
             ]);
@@ -169,7 +169,7 @@ class sellerController extends Controller
 
     public function viewProperty(Request $request){
         $property = Property::findOrFail($request->id);
-        $appraisals = Appraisal::where('id_property',$request->id)->orderBy('create_date','desc')->get();
+        $appraisals = Appraisal::where('id_property',$request->id)->where('ind_deleted',0)->orderBy('create_date','desc')->get();
         return view('seller.details',compact('property','appraisals'));
     }
 

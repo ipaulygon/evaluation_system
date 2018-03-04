@@ -1,3 +1,14 @@
+$(document).ready(function(){
+    $(".number").inputmask({ 
+        alias: "currency",
+        prefix: '',
+        allowMinus: false,
+        autoGroup: true,
+        min: 0
+    });
+});
+
+
 $('#dtblAppraiser').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
@@ -408,7 +419,7 @@ $('#appraisal_form').validator().on('submit', function (e) {
         var prpty1_city= $("#prpty1_city").val();
         var prpty1_barangay= $("#prpty1_barangay").val();
         var prpty1_property_location= $("#prpty1_property_location").val();
-        var prpty1_lot_value= $("#prpty1_lot_value").val();
+        var prpty1_lot_value= $("#prpty1_lot_value").val().replace(/,/g,'');
         
         var prpty2_property_name= $("#prpty2_property_name").val();
         var prpty2_region= $("#prpty2_region").val();
@@ -416,7 +427,7 @@ $('#appraisal_form').validator().on('submit', function (e) {
         var prpty2_city= $("#prpty2_city").val();
         var prpty2_barangay= $("#prpty2_barangay").val();
         var prpty2_property_location= $("#prpty2_property_location").val();
-        var prpty2_lot_value= $("#prpty2_lot_value").val();
+        var prpty2_lot_value= $("#prpty2_lot_value").val().replace(/,/g,'');
         
         var prpty3_property_name= $("#prpty3_property_name").val();
         var prpty3_region= $("#prpty3_region").val();
@@ -424,7 +435,7 @@ $('#appraisal_form').validator().on('submit', function (e) {
         var prpty3_city= $("#prpty3_city").val();
         var prpty3_barangay= $("#prpty3_barangay").val();
         var prpty3_property_location= $("#prpty3_property_location").val();
-        var prpty3_lot_value= $("#prpty3_lot_value").val();
+        var prpty3_lot_value= $("#prpty3_lot_value").val().replace(/,/g,'');
         
         var subj_dtInspection= $("#subj_dtInspection").val();
         var subj_dtAppraisal= $("#subj_dtAppraisal").val();
@@ -436,7 +447,7 @@ $('#appraisal_form').validator().on('submit', function (e) {
         var subj_total_ecolife= $("#subj_total_ecolife").val();
         var subj_remaining_ecolife= $("#subj_remaining_ecolife").val();
         var subj_remarks= $("#subj_remarks").val();
-        var subj_house_value= $("#subj_house_value").val();
+        var subj_house_value= $("#subj_house_value").val().replace(/,/g,'');
         
         var average_lot_value = parseFloat(((parseInt(prpty1_lot_value) || 0 ) + (parseInt(prpty2_lot_value) || 0) + (parseInt(prpty3_lot_value) || 0)) / 3).toFixed(2);
         // alert("Apppraisal Average Lot Value : " + average_lot_value);
@@ -476,6 +487,13 @@ $('#appraisal_form').validator().on('submit', function (e) {
                     $btnAppraiseProperty.button('reset');  
                 } else{
                     $('#container').html(data);
+                    $(".number").inputmask({ 
+                        alias: "currency",
+                        prefix: '',
+                        allowMinus: false,
+                        autoGroup: true,
+                        min: 0
+                    });
                     $('.loading').addClass('hide');
                 }
                 

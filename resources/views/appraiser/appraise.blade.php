@@ -108,7 +108,7 @@
                                     <div class="form-group">
                                         <label for="subj_house_value" class="col-lg-4 control-label">House Value</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" id="subj_house_value" placeholder="House Value">
+                                            <input type="text" class="form-control number" id="subj_house_value" placeholder="House Value">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -208,7 +208,7 @@
                                     <div class="form-group">
                                         <label for="prpty1_lot_value" class="col-lg-4 control-label">Lot Value (Sq m.)</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" id="prpty1_lot_value" placeholder="Lot Value">
+                                            <input type="text" class="form-control number" id="prpty1_lot_value" placeholder="Lot Value">
                                         </div>
                                     </div>  
                                 </div>
@@ -293,7 +293,7 @@
                                     <div class="form-group">
                                         <label for="prpty2_lot_value" class="col-lg-4 control-label">Lot Value (Sq m.)</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" id="prpty2_lot_value" placeholder="Lot Value">
+                                            <input type="text" class="form-control number" id="prpty2_lot_value" placeholder="Lot Value">
                                         </div>
                                     </div>  
                                 </div>
@@ -378,7 +378,7 @@
                                     <div class="form-group">
                                         <label for="prpty3_lot_value" class="col-lg-4 control-label">Lot Value (Sq m.)</label>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" id="prpty3_lot_value" placeholder="Lot Value">
+                                            <input type="text" class="form-control number" id="prpty3_lot_value" placeholder="Lot Value">
                                         </div>
                                     </div>     
                                 </div>
@@ -404,6 +404,10 @@
 @stop
 
 @section('script')
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.extensions.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/inputmask.numeric.extensions.js')}}"></script>
+    <script src="{{ URL::asset('assets/plugins/input-mask/jquery.inputmask.js')}}"></script>
     <script src="{{ URL::asset('assets/js/appraiserIndex.js') }}"></script>
     <script type="text/javascript">
 		$(document).ready(function(){

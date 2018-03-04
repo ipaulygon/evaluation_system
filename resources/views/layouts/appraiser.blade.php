@@ -35,7 +35,7 @@
                 <nav class="navbar navbar-static-top">
                     <div class="container">
                         <div class="navbar-header">
-                            <a href="{{URL::to('/my_properties')}}" class="navbar-brand"></a>
+                            <a href="{{URL::to('/dashboard')}}" class="navbar-brand">Evaluation System</a>
                         </div>
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">

@@ -31,7 +31,7 @@
         <h1>E-VALUATION SYSTEM</h1>
         <p>Let's build your dream house together</p> 
       </div>
-
+      
       <!-- <nav class="navbar navbar-expand-lg navbar-light bg-faded py-lg-4">
         <div class="container">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,6 +59,15 @@
       </nav> -->
 
       <div class="container">
+        <ul class="nav nav-pills nav-justified">
+          <li><a href="{{URL::to('/')}}">Home</a></li>
+          @if(\Auth::user())
+            <li><a href="{{URL::to('/dashboard')}}">Profile</a></li>
+          @else
+            <li><a href="{{URL::to('/login')}}">Login/Register</a></li>
+          @endif
+        </ul>
+        <hr>
         @yield('content')
       </div>
       <footer class="footer">

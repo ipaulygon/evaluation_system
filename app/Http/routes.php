@@ -4,6 +4,9 @@ use App\Models\Province;
 use App\Models\City;
 use App\Models\Barangay;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -34,7 +37,7 @@ Route::auth();
 // Route::get('/home', 'HomeController@index');
 
 Route::group(['middleware' => 'auth'], function(){
-    Route::get('/dashboard', function(){
+    Route::get('/dashboard', function(Request $request){
         if (Auth::user()->user_type == 0) {
             return Redirect::to('/appraisers');
         }else if(Auth::user()->user_type == 1){
@@ -42,8 +45,7 @@ Route::group(['middleware' => 'auth'], function(){
         }else if(Auth::user()->user_type == 2 && Auth::user()->seller->ind_active==1){
             return Redirect::to('/my_properties');
         }else{
-            \Auth::logout();
-            // $request->session()->flash('error', "You are still pending for selling properties.");
+            Auth::logout();
             return Redirect::to('/login');
         }
     });
