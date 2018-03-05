@@ -11,7 +11,7 @@ class Seller extends Model
 	protected $primaryKey = 'id_seller';
 
     protected $fillable = [
-        'id_user','first_name', 'middle_name', 'last_name',
+        'id_user','first_name', 'middle_name', 'last_name', 'contact_number'
     ];
 
 	public function user(){

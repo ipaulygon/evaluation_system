@@ -92,7 +92,7 @@ class HomeController extends Controller
 
     public function GetSearch(Request $request){
         $properties = DB::select(DB::raw('
-        SELECT * 
+        SELECT p.id_property as id_property, p.property_name as property_name, p.property_type as property_type, p.lot_area as lot_area, sp.price as price, (SELECT picture_path FROM tbl_appraisal_property_picture as ap WHERE ap.id_property=p.id_property LIMIT 1) as picture
         FROM tbl_sell_property AS sp
         JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
         JOIN tbl_property AS p ON a.id_property = p.id_property
