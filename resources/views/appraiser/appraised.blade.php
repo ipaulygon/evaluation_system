@@ -82,6 +82,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="box-footer">
+                            <a href="javascript: window.print()" target="_blank" type="button" class="btn btn-block btn-flat btn-primary">
+                                <i class="fa fa-file"></i> Print PDF
+                            </a>
+                        </div>
                     </div> 
                 </div>
                 <div class = "col-md-6">

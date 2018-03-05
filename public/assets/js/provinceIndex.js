@@ -1,9 +1,9 @@
 $('#dtblProvince').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblProvince tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblProvince tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 

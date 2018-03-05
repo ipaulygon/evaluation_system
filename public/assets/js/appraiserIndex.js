@@ -12,9 +12,9 @@ $(document).ready(function(){
 $('#dtblAppraiser').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblAppraiser tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblAppraiser tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 

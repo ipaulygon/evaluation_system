@@ -1,9 +1,9 @@
 $('#dtblBarangay').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblBarangay tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblBarangay tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 

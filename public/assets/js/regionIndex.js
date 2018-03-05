@@ -1,9 +1,9 @@
 $('#dtblRegion').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblRegion tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblRegion tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 

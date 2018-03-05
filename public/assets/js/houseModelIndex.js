@@ -1,9 +1,9 @@
 $('#dtblHouseModel').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblHouseModel tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblHouseModel tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 

@@ -1,9 +1,9 @@
 $('#dtblCity').dataTable();
 $('document').ready(function(){
     $('.loading').addClass('hide');
-    $('#dtblCity tbody').on('click', '.clickable-row', function () {
-        window.location = $(this).data("href");
-    } );
+    // $('#dtblCity tbody').on('click', '.clickable-row', function () {
+    //     window.location = $(this).data("href");
+    // } );
 
 });
 

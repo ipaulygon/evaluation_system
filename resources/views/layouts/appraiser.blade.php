@@ -66,7 +66,7 @@
             <div class="content-wrapper">
                 @yield('content')
             </div>
-            <footer class="main-footer" style="position:fixed;bottom:0">
+            <footer class="main-footer" style="position:relative;bottom:0">
                 <div class="pull-right hidden-xs">
                 <b>Version</b> 1.0
                 </div>
