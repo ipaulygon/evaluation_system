@@ -85,7 +85,7 @@
                                                 </button>
                                                 @endif
                                                 @if($property->property_status == 4)
-                                                <button type="button" class="btn btn-sm btn-default btnUpdateProperty" data-toggle="modal" data-target="#modalUpdateProperty" title="Update">
+                                                <button type="button" class="btn btn-sm btn-default btnUpdatePublishProperty" data-toggle="modal" data-target="#modalUpdateProperty" title="Update">
                                                     UPDATE
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-default btnSoldProperty" data-toggle="tooltip" title="Sold">
@@ -212,7 +212,133 @@
         </div>
         <!-- MODAL ADD PROPERTY-->
 
-        <!-- MODAL ADD PROPERTY -->
+        <!-- MODAL EDIT PROPERTY -->
+        <div class="modal fade" id="modalEditProperty" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Property</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                        
+                    </div>
+
+                    <form role="form" data-toggle="validator" id="formUpdate">
+                        <div class="modal-body">
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <legend>Property Details</legend>
+                                    
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdatePropertyName">Property Name</label>
+                                                <input type="text" class="form-control" id="inputUpdatePropertyName" required>
+                                            </div>
+                                            <div class="form-group col-sm-12">
+                                                <label for="inputUpdatePropertyType">Property Type</label>
+                                                <select class="form-control" id="inputUpdatePropertyType">
+                                                    <option value = "0">Lot</option>
+                                                    <option value = "1">House and Lot</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdateTCTNumber">TCT Number</label>
+                                                <input type="text" class="form-control" id="inputUpdateTCTNumber" required>
+                                            </div>
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdateLotArea">Lot Area (sq. m.)</label>
+                                                <input class="form-control number" id="inputUpdateLotArea" required>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <fieldset>
+                                            <legend>Property Location</legend>
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdateRegion">Region</label>
+                                                <select class="form-control" id="inputUpdateRegion">
+                                                    @foreach($UpdateRegions as $region)
+                                                        <option value="{{$region->id_region}}">{{$region->region_description}} ({{$region->region_code}})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdateProvince">Province</label>
+                                                <select class="form-control" id="inputUpdateProvince">
+                                                    @foreach($UpdateProvinces as $province)
+                                                        <option value="{{$province->id_province}}">{{$province->province_description}} ({{$province->province_code}})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdateCity">City</label>
+                                                <select class="form-control" id="inputUpdateCity">
+                                                    @foreach($UpdateCities as $city)
+                                                        <option value="{{$city->id_city}}">{{$city->city_description}} ({{$city->city_code}})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdateBarangay">Barangay</label>
+                                                <select class="form-control" id="inputUpdateBarangay">
+                                                    @foreach($UpdateBarangays as $barangay)
+                                                        <option value="{{$barangay->id_barangay}}">{{$barangay->barangay_description}} ({{$barangay->barangay_code}})</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group  col-sm-12">
+                                                <label for="inputUpdatePropertyLocation">House No. / Street / Subdivision </label>
+                                                <input class="form-control" id="inputUpdatePropertyLocation" required>
+                                            </div>
+                                            <p class="help-block"></p>
+                                            <div class="form-group  col-sm-6">
+                                                <input type="hidden" class="form-control" id="inputUpdatePropertyPrimaryKey">
+                                            </div>
+                                            <div class="form-group  col-sm-6">
+                                                <input type="hidden" class="form-control" id="inputUpdatePropertyLocationID">
+                                            </div>
+                                        </fieldset>
+                                    </div>                                        
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="btnUpdateProperty" class="btn btn-success">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL EDIT PROPERTY-->
+
+        <!-- MODAL SUCCESSFUL Update -->
+        <div class="modal fade" id="modalSuccessfulUpdate" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Property</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <img class="img-responsive" src="assets/image/icons/successIcon.png" alt="Success Icon" width="20px" align="left">
+                            &nbsp; Property named <span id="successUpdatePropertyName"></span> has been updated.
+                        </p>
+                        <div class="successMessage">
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL SUCCESSFUL Update -->
+
+        <!-- MODAL VIEW PROPERTY -->
         <div class="modal fade" id="modalViewProperty" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -226,7 +352,7 @@
                 </div>
             </div>
         </div>
-        <!-- MODAL ADD PROPERTY-->
+        <!-- MODAL VIEW PROPERTY-->
 
 
         <!-- MODAL SUCCESSFUL CREATION -->
@@ -444,10 +570,10 @@
                 </div>
         </div>
 
-        <div class="modal fade" id="modalUpdateProperty" role="dialog">
+        <div class="modal fade" id="modalUpdatePublishProperty" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form id="formUpdate">
+                        <form id="formUpdatePublish">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
@@ -505,8 +631,7 @@
                 </div>
             </div>
         </div>
-
-    </section>
+    </div>
 @stop
 
 

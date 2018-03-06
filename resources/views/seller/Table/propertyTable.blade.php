@@ -68,7 +68,7 @@
                                 </button>
                                 @endif
                                 @if($property->property_status == 4)
-                                <button type="button" class="btn btn-sm btn-default btnUpdateProperty" data-toggle="modal" data-target="#modalUpdateProperty" title="Update">
+                                <button type="button" class="btn btn-sm btn-default btnUpdatePublishProperty" data-toggle="modal" data-target="#modalUpdateProperty" title="Update">
                                     UPDATE
                                 </button>
                                 <button type="button" class="btn btn-sm btn-default btnSoldProperty" data-toggle="tooltip" title="Sold">

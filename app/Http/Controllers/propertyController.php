@@ -31,7 +31,12 @@ class propertyController extends Controller
         $cities = City::where('ind_deleted',0)->where('id_province',$provinces->first()->id_province)->orderBy('city_code')->get();
         $barangays = Barangay::where('ind_deleted',0)->where('id_city',$cities->first()->id_city)->orderBy('barangay_code')->get();
         $appraisers = Appraiser::all();
-        return view('seller.my_properties', ['properties'=>$properties,'regions'=>$regions,'provinces'=>$provinces,'cities'=>$cities,'barangays'=>$barangays,'appraisers' => $appraisers]);
+        $UpdateRegions = Region::where('ind_deleted',0)->orderBy('region_code')->get();
+        $UpdateProvinces = Province::where('ind_deleted',0)->orderBy('province_code')->get();
+        $UpdateCities = City::where('ind_deleted',0)->orderBy('city_code')->get();
+        $UpdateBarangays = Barangay::where('ind_deleted',0)->orderBy('barangay_code')->get();
+        return view('seller.my_properties', ['properties'=>$properties,'regions'=>$regions,'provinces'=>$provinces,'cities'=>$cities,'barangays'=>$barangays,'appraisers' => $appraisers,
+        'UpdateRegions'=>$UpdateRegions,'UpdateProvinces'=>$UpdateProvinces,'UpdateCities'=>$UpdateCities,'UpdateBarangays'=>$UpdateBarangays]);
     }
 
 
@@ -43,6 +48,21 @@ class propertyController extends Controller
         }else{
             return view('errors.404');
         }  
+    }
+
+    public function get_property_details(Request $request){
+        $property = Property::find($request->propertyPrimaryKey);
+        $propertyLocation = PropertyLocation::find($request->propertyLocation);
+        $barangay = Barangay::find($propertyLocation->id_barangay);
+        $city = City::find($barangay->id_city);
+        $province = Province::find($city->id_province);
+        $UpdateRegions = Region::where('ind_deleted',0)->orderBy('region_code')->get();
+        $UpdateProvinces = Province::where('ind_deleted',0)->orderBy('province_code')->get();
+        $UpdateCities = City::where('ind_deleted',0)->orderBy('city_code')->get();
+        $UpdateBarangays = Barangay::where('ind_deleted',0)->orderBy('barangay_code')->get();
+        
+        return response()->json(['property'=>$property, 'propertyLocation'=>$propertyLocation, 'province'=>$province, 'city'=>$city, "barangay"=>$barangay,
+        'UpdateRegions'=>$UpdateRegions,'UpdateProvinces'=>$UpdateProvinces,'UpdateCities'=>$UpdateCities,'UpdateBarangays'=>$UpdateBarangays]);
     }
 
     public function getPropertyData(){
@@ -163,23 +183,50 @@ class propertyController extends Controller
     }
 
     public function update(Request $request){
+        try{
+            DB::beginTransaction(); 
+            $property = Property::find($request->propertyId);
+            $propertyLocation = PropertyLocation::find($property->id_property_location);
 
-        $property = Property::find($request->strPrimaryKey);
+ 
+            if (!is_null($property)){
 
-        if (!is_null($property)){
-            $propertyLocation->street_address   = $request->strAddress;
-            $propertyLocation->id_barangay      = $request->id_barangay;
-            $propertyLocation->save();
+                if($propertyLocation->id_barangay != $request->intBarangay || $propertyLocation->address != $request->strPropertyLocation){
+                    $region = new Region;
+                    $province = new Province;
+                    $city = new City;
+                    $barangay = new Barangay;
+                    
+                    $barangay = Barangay::find($request->intBarangay);
+                    $city = City::find($request->intCity);
+                    $province = Province::find($request->intProvince);
+                    $region = Region::find($request->intRegion);
+                    
+                    $propertyLocation->address       = $request->strPropertyLocation . ' ' . $barangay->barangay_description . ' ' . $city->city_description . ' ' . $province->province_description . ' ' . $region->region_description;
+                    $propertyLocation->id_barangay   = $request->intBarangay;
+                    $propertyLocation->update_date           = Carbon\Carbon::now();
+                    $propertyLocation->save();
 
-            $property->property_name 	    = $request->strPropertyName;
-            $property->id_property_location = $propertyLocation->id_property_location;
-            $property->tct_number 	        = $request->strTCTnumber;
-            $property->update_date = Carbon\Carbon::now();
-            $property->save();
-            $propertiesNewDataSet = $this->getPropertyData();
-            return view('property.Table.propertyTable', ['properties' => $propertiesNewDataSet]);
-        }else{
-            return "error";	
+                }
+                
+                $property->property_name 	    = $request->strPropertyName;
+                $property->property_type 	    = $request->intPropertyType;
+                $property->tct_number 	        = $request->strTCTNumber;
+                $property->lot_area 	        = str_replace(",","",$request->dblLotArea);
+                $property->update_date          = Carbon\Carbon::now();
+                $property->save();
+
+                $propertiesNewDataSet = $this->getPropertyData();
+                DB::commit();
+                return view('seller.Table.propertyTable', ['properties' => $propertiesNewDataSet]);
+            }else{
+                return "error";	
+            }
+        }catch (\Illuminate\Database\QueryException $e){
+	        DB::rollBack();	
+	        //return $e->getMessage(); 
+            //for debugging
+	        return "error";
         }
     }
 

@@ -283,10 +283,15 @@ Route::group(['middleware' => 'auth'], function(){
             'uses' => 'propertyController@create',
             'as' => 'seller.create'
         ));
+        Route::post('/my_properties/update', array(
+            'uses' => 'propertyController@update',
+            'as' => 'seller.update'
+        ));
         Route::post('/my_properties/request_appraisal', array(
             'uses' => 'propertyController@request_appraisal',
             'as' => 'seller.request_appraisal'
         ));
+        Route::post('/get_property_details', 'propertyController@get_property_details');
         Route::post('/publish_property', 'sellerController@PublishProperty');
         Route::post('/update_property', 'sellerController@UpdateProperty');
         Route::post('/sold_property', 'sellerController@SoldProperty');

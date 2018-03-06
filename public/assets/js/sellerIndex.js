@@ -86,19 +86,126 @@ $('#form').validator().on('submit', function (e) {
     return false;
 })
 
-$("#btnCreateAnotherProperty").click(function(){
+$('#btnCreateAnotherProperty').click(function(){
     $('#modalSuccessfulCreation').modal('hide');
-    var passwordGenerated = randomString(7);
     if($('#form').data('bs.validator').validate().hasErrors()) {
         $('#form').data('bs.validator').reset();
     }
-    $("#formErrorMessage").hide();
-    $("#inputPropertyName").val("");
-    $("#inputLotArea").val("");
-    // $("#inputEffectiveAge").val("");
-    $("#inputPropertyLocation").val("");
+    $('#formErrorMessage').hide();
+    $('#inputPropertyName').val("");
+    $('#inputPropertyType').val("");
+    $('#inputTCTNumber').val("");
+    $('#inputLotArea').val("");
+    $('#inputPropertyLocation').val("");
     $('#modalAddProperty').modal('show');
 });
+
+$('#dtblProperty tbody').on('click', '.btnEditProperty', function () {
+    if($('#formUpdate').data('bs.validator').validate().hasErrors()) {
+        $('#formUpdate').data('bs.validator').reset();
+    }
+    var propertyPrimaryKey = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    var propertyLocation = $(this).parent().parent().parent().find('.classPropertyLocation').text();
+    var propertySellerID = $(this).parent().parent().parent().find('.classSellerID').text();
+        
+    $.ajax({
+        type: "POST",
+        url: "/get_property_details",
+        data: {propertyPrimaryKey : propertyPrimaryKey, propertyLocation : propertyLocation, propertySellerID : propertySellerID},
+        cache: false,
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        success: function(data){
+            var property = data.property;
+            var propertyLocation = data.propertyLocation;
+            var province = data.province;
+            var city = data.city;
+            var barangay = data.barangay;
+            $('#inputUpdatePropertyPrimaryKey').val(property.id_property);
+            $('#inputUpdatePropertyName').val(property.property_name);
+            $('#inputUpdatePropertyType').val(property.property_type).attr("selected" , "selected");
+            $("#inputUpdateTCTNumber").val(property.tct_number);
+            $("#inputUpdateLotArea").val(property.lot_area);
+            $("#inputUpdateRegion").val(province.id_region).attr("selected" , "selected");
+            $("#inputUpdateProvince").val(province.id_province).attr("selected" , "selected");
+            $("#inputUpdateCity").val(city.id_city).attr("selected" , "selected");
+            $("#inputUpdateBarangay").val(propertyLocation.id_barangay).attr("selected" , "selected");
+            $("#inputUpdatePropertyLocation").val(propertyLocation.address);
+            $("#inputUpdatePropertyLocationID").val(propertyLocation.id_property_location);
+            $("#formErrorMessageRename").hide();
+            $('#modalEditProperty').modal('show');
+        
+        },
+        error: function(data){
+            alert('error');
+        }
+    });
+    
+} );
+
+
+$('#formUpdate').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+        // handle the invalid form...
+    } else {
+        $('#loadingProperty').addClass('overlay');
+        $('#loadingPropertyDesign').addClass('fa fa-refresh fa-spin')
+        
+        var $btnUpdateProperty = $('#btnUpdateProperty');
+        $btnUpdateProperty.button('loading');
+        var propertyId = $('#inputUpdatePropertyPrimaryKey').val();
+        var propertyLocationId = $('#inputUpdatePropertyPrimaryKey').val();
+
+
+        var strPropertyName = $("#inputUpdatePropertyName").val();
+        var intPropertyType = $("#inputUpdatePropertyType").val();
+        var strTCTNumber = $("#inputUpdateTCTNumber").val();
+        var dblLotArea = $("#inputUpdateLotArea").val();
+        var intRegion = $("#inputUpdateRegion").val();
+        var intProvince = $("#inputUpdateProvince").val();
+        var intCity = $("#inputUpdateCity").val();
+        var intBarangay = $("#inputUpdateBarangay").val();
+        var strPropertyLocation = $("#inputUpdatePropertyLocation").val();
+        $.ajax({
+            url: "my_properties/update",
+            type:"POST",
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                      return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: { propertyId : propertyId, propertyLocationId : propertyLocationId, strPropertyName : strPropertyName, intPropertyType : intPropertyType, strTCTNumber : strTCTNumber, dblLotArea : dblLotArea, 
+               intRegion : intRegion, intProvince : intProvince, intCity : intCity, intBarangay : intBarangay, strPropertyLocation : strPropertyLocation},
+            success:function(data){
+                if(data == 'error'){
+                    $("#formErrorMessage").show();
+                    $btnUpdateProperty.button('reset');  
+                } else{
+                    $('#propertyTable').html(data);
+                    $('#successUpdatePropertyName').text(strPropertyName);
+                    $("#inputUpdatePropertyName").val("");
+                    $("#inputUpdatePropertyType").val("");
+                    $("#inputUpdateTCTNumber").val("");
+                    $("#inputUpdateLotArea").val("");
+                    $("#inputUpdatePropertyLocation").val("");
+                    $('#modalEditProperty').modal('hide'); 
+                    $('#modalSuccessfulUpdate').modal('show');
+                    $btnUpdateProperty.button('reset');
+                }
+                
+            },error:function(data){ 
+                alert("Error!");
+            }
+        });
+    }
+    return false;
+})
+
 
 $('#dtblProperty tbody').on('click', '.btnAppraiseProperty', function () {
     if($('#formRequestAppraisal').data('bs.validator').validate().hasErrors()) {
@@ -219,7 +326,7 @@ $(document).on('click','.btnPublishProperty',function(){
     });
 });
 
-$(document).on('click','.btnUpdateProperty',function(){
+$(document).on('click','.btnUpdatePublishProperty',function(){
     var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text();
     $.ajax({
         type: "POST",
@@ -238,6 +345,7 @@ $(document).on('click','.btnUpdateProperty',function(){
             $('#sellPropertyIdUpdate').val(data[2].id_sell_property);
             $('#priceUpdate').val(data[2].price);
             $('#remarksUpdate').val(data[2].remarks);
+            $('#modalUpdatePublishProperty').modal('show');  
         },
         error: function(data){
             alert("error!");
@@ -271,7 +379,7 @@ $('#formPublish').validator().on('submit',function(e){
     });
 });
 
-$('#formUpdate').validator().on('submit',function(e){
+$('#formUpdatePublish').validator().on('submit',function(e){
     e.preventDefault();
     var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
     var $btnPublish= $('#btnUpdate');
@@ -285,10 +393,10 @@ $('#formUpdate').validator().on('submit',function(e){
                   return xhr.setRequestHeader('X-CSRF-TOKEN', token);
             }
         },
-        data: $('#formUpdate').serialize(),
+        data: $('#formUpdatePublish').serialize(),
         success:function(data){
             $('#propertyTable').html(data);  
-            $('#modalUpdateProperty').modal('hide');  
+            $('#modalUpdatePublishProperty').modal('hide');  
             $btnPublish.button('reset');            
             $('#modalSuccessfulPublish').modal('show');                    
         },error:function(data){ 
@@ -412,6 +520,100 @@ $(document).on('change','#city',function(){
             $("#barangay").empty();
             $.each(barangays,function(key,value){
                 $("#barangay").append($("<option></option>").attr("value",value.id_barangay).text(value.barangay_description+" ("+value.barangay_code+")"));
+            });
+        },
+        error: function(data){
+            alert('error');
+        }
+    });
+});
+
+
+$(document).on('change','#inputUpdateRegion',function(){
+    $.ajax({
+        type: "POST",
+        url: "/change_region",
+        data: {region: $('#inputUpdateRegion').val()},
+        cache: false,
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        success: function(data){
+            var provinces = data.provinces;
+            var cities = data.cities;
+            var barangays = data.barangays;
+            $("#inputUpdateProvince").empty();
+            $("#inputUpdateCity").empty();
+            $("#inputUpdateBarangay").empty();
+            $("#inputUpdatePropertyLocation").val("");
+            $.each(provinces,function(key,value){
+                $("#inputUpdateProvince").append($("<option></option>").attr("value",value.id_province).text(value.province_description+" ("+value.province_code+")"));
+            });
+            $.each(cities,function(key,value){
+                $("#inputUpdateCity").append($("<option></option>").attr("value",value.id_city).text(value.city_description+" ("+value.city_code+")"));
+            });
+            $.each(barangays,function(key,value){
+                $("#inputUpdateBarangay").append($("<option></option>").attr("value",value.id_barangay).text(value.barangay_description+" ("+value.barangay_code+")"));
+            });
+        },
+        error: function(data){
+            alert('error');
+        }
+    });
+});
+
+$(document).on('change','#inputUpdateProvince',function(){
+    $.ajax({
+        type: "POST",
+        url: "/change_province",
+        data: {province: $('#inputUpdateProvince').val()},
+        cache: false,
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        success: function(data){
+            var cities = data.cities;
+            var barangays = data.barangays;
+            $("#inputUpdateCity").empty();
+            $("#inputUpdateBarangay").empty();
+            $("#inputUpdatePropertyLocation").val("");
+            $.each(cities,function(key,value){
+                $("#inputUpdateCity").append($("<option></option>").attr("value",value.id_city).text(value.city_description+" ("+value.city_code+")"));
+            });
+            $.each(barangays,function(key,value){
+                $("#inputUpdateBarangay").append($("<option></option>").attr("value",value.id_barangay).text(value.barangay_description+" ("+value.barangay_code+")"));
+            });
+        },
+        error: function(data){
+            alert('error');
+        }
+    });
+});
+
+$(document).on('change','#inputUpdateCity',function(){
+    $.ajax({
+        type: "POST",
+        url: "/change_city",
+        data: {city: $('#inputUpdateCity').val()},
+        cache: false,
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        success: function(data){
+            var barangays = data.barangays;
+            $("#inputUpdateBarangay").empty();
+            $("#inputUpdatePropertyLocation").val("");
+            $.each(barangays,function(key,value){
+                $("#inputUpdateBarangay").append($("<option></option>").attr("value",value.id_barangay).text(value.barangay_description+" ("+value.barangay_code+")"));
             });
         },
         error: function(data){

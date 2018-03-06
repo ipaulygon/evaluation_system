@@ -82,11 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box-footer">
-                            <a href="javascript: window.print()" target="_blank" type="button" class="btn btn-block btn-flat btn-primary">
-                                <i class="fa fa-file"></i> Print PDF
-                            </a>
-                        </div>
+                        
                     </div> 
                 </div>
                 <div class = "col-md-6">
@@ -141,6 +137,18 @@
                                     <input type="text" class="form-control number" id="subj_total_property_value" placeholder="Total Property Value" value="{{$appraiseproperty->total_property_value}}" readonly>
                                 </div>
                             </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="col-md-6">
+                            <a href="javascript: window.print()" target="_blank" type="button" class="btn btn-block btn-flat btn-primary">
+                                <i class="fa fa-file"></i> Print PDF
+                            </a>
+                            </div>
+                            <div class="col-md-6">
+                            <a href="/request_appraisals" type="button" class="btn btn-block btn-flat btn-success">
+                                Back to Request Appraisals
+                            </a>
+                            <div class="col-md-6">
                         </div>
                     </div>
                 </div>
