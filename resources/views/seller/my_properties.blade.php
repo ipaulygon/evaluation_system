@@ -85,6 +85,9 @@
                                                 </button>
                                                 @endif
                                                 @if($property->property_status == 4)
+                                                <button type="button" class="btn btn-sm btn-default btnUpdateProperty" data-toggle="modal" data-target="#modalUpdateProperty" title="Update">
+                                                    UPDATE
+                                                </button>
                                                 <button type="button" class="btn btn-sm btn-default btnSoldProperty" data-toggle="tooltip" title="Sold">
                                                     SOLD
                                                 </button>
@@ -440,6 +443,40 @@
                     </div>
                 </div>
         </div>
+
+        <div class="modal fade" id="modalUpdateProperty" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="formUpdate">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Update Property</h4>
+                            </div>
+                            <div class="modal-body">
+                                <center>Do you want to update this property?</center>
+                                <input type="hidden" name="propertyId" id="propertyIdUpdate" value="">
+                                <input type="hidden" name="appraisalId" id="appraisalIdUpdate" value="">
+                                <input type="hidden" name="sellPropertyId" id="sellPropertyIdUpdate" value="">
+                                <span id="appraisedValueUpdate" class="hidden">Appraised Value: </span>
+                                <div class="form-group">
+                                    <label for="">Price</label>
+                                    <input type="text" name="price" id="priceUpdate" class="form-control number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Remarks</label>
+                                    <textarea name="remarks" id="remarksUpdate" cols="30" rows="10" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="submit" id="btnUpdate" class="btn btn-success">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+
         <div class="modal fade" id="modalUploadProperty" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">

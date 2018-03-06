@@ -126,6 +126,24 @@ class sellerController extends Controller
         }
     }
 
+    public function UpdateProperty(Request $request){
+        try{
+            DB::beginTransaction();  
+            $sell_property = SellProperty::findOrFail($request->sellPropertyId);
+            $sell_property->update([
+                'price' => str_replace(",","",$request->price),
+                'remarks' => $request->remarks
+            ]);
+            $properties = $this->getProperties();
+            DB::commit();
+            return view('seller.Table.propertyTable', compact('properties'));
+        }catch (\Illuminate\Database\QueryException $e){
+	        DB::rollBack();	
+	        //return $e->getMessage(); for debugging
+	        return "error";
+        }
+    }
+
     public function SoldProperty(Request $request){
         try{
             DB::beginTransaction();  
@@ -184,5 +202,20 @@ class sellerController extends Controller
 	        //return $e->getMessage(); for debugging
 	        return "error";
         }
+    }
+
+    public function AppraisedValue(Request $request){
+        $property = Property::findOrFail($request->id);
+        $appraisal = Appraisal::where('id_property',$request->id)->orderBy('create_date','desc')->first();
+        $appraisal_property = AppraiseProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
+        return response()->json(["<label>Appraisal Value: PhP ".number_format($appraisal_property->total_property_value,2)."</label>",$appraisal->id_appraisal]);
+    }
+
+    public function UpdateValue(Request $request){
+        $property = Property::findOrFail($request->id);
+        $appraisal = Appraisal::where('id_property',$request->id)->orderBy('create_date','desc')->first();
+        $appraisal_property = AppraiseProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
+        $sell_property = SellProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
+        return response()->json(["<label>Appraisal Value: PhP ".number_format($appraisal_property->total_property_value,2)."</label>",$appraisal->id_appraisal,$sell_property]);
     }
 }

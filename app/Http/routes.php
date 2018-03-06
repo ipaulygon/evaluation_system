@@ -25,7 +25,6 @@ Route::post("/change_city","HomeController@ChangeCity");
 Route::get("/show_property/{id}","HomeController@ShowProperty");
 Route::post("/property_count","HomeController@PropertyCount");
 Route::post("/get_statistics","HomeController@Statistics");
-Route::post("/get_appraised_value","HomeController@AppraisedValue");
 // Route::get('/appraised_property', function(){
 //     return view('appraiser.appraised');
 // });
@@ -289,11 +288,14 @@ Route::group(['middleware' => 'auth'], function(){
             'as' => 'seller.request_appraisal'
         ));
         Route::post('/publish_property', 'sellerController@PublishProperty');
+        Route::post('/update_property', 'sellerController@UpdateProperty');
         Route::post('/sold_property', 'sellerController@SoldProperty');
         Route::post('/add_property_images','sellerController@uploadImage');
         Route::post('/view_property','sellerController@viewProperty');        
         Route::post('/remove_picture','sellerController@removePicture'); 
-        Route::post('/remove_property', 'propertyController@suspend');     
+        Route::post('/remove_property', 'propertyController@suspend');    
+        Route::post("/get_appraised_value","sellerController@AppraisedValue");
+        Route::post("/get_update_value","sellerController@UpdateValue");
     });
 });
 

@@ -20,7 +20,7 @@ class CityController extends Controller
     public function index()
     {
         $cities = City::with('province')->where('ind_deleted',0)
-        ->orderBy('city_code')
+        ->orderBy('city_description','asc')
         ->get();
         $provinces = Province::where('ind_deleted',0)
         ->orderBy('province_code')
@@ -30,7 +30,7 @@ class CityController extends Controller
 
     public function filter(Request $request){
     	$cities = City::with('province')->where('ind_deleted', $request->selFilterValue)
-            ->orderBy('city_code', 'asc')
+            ->orderBy('city_description', 'asc')
             ->get();
         if($request->selFilterValue == 0){
             return view('city.Table.CityTable', compact('cities'));
@@ -42,7 +42,7 @@ class CityController extends Controller
 
     public function getCityData(){
         return City::with('province')->where('ind_deleted', 0)
-        ->orderBy('city_code')
+        ->orderBy('city_description')
         ->get();
     }
 

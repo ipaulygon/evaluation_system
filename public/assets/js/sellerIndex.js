@@ -219,6 +219,32 @@ $(document).on('click','.btnPublishProperty',function(){
     });
 });
 
+$(document).on('click','.btnUpdateProperty',function(){
+    var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text();
+    $.ajax({
+        type: "POST",
+        url: "/get_update_value",
+        data: {id: id},
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        success: function(data){
+            $('#appraisedValueUpdate').html(data[0]);
+            $('#appraisalIdUpdate').val(data[1]);
+            $('#propertyIdUpdate').val(id);
+            $('#sellPropertyIdUpdate').val(data[2].id_sell_property);
+            $('#priceUpdate').val(data[2].price);
+            $('#remarksUpdate').val(data[2].remarks);
+        },
+        error: function(data){
+            alert("error!");
+        }
+    });
+});
+
 $('#formPublish').validator().on('submit',function(e){
     e.preventDefault();
     var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
@@ -237,6 +263,32 @@ $('#formPublish').validator().on('submit',function(e){
         success:function(data){
             $('#propertyTable').html(data);  
             $('#modalPublishProperty').modal('hide');  
+            $btnPublish.button('reset');            
+            $('#modalSuccessfulPublish').modal('show');                    
+        },error:function(data){ 
+            alert("Error!");
+        }
+    });
+});
+
+$('#formUpdate').validator().on('submit',function(e){
+    e.preventDefault();
+    var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    var $btnPublish= $('#btnUpdate');
+    $btnPublish.button('loading');
+    $.ajax({
+        url: "/update_property",
+        type:"POST",
+        beforeSend: function (xhr) {
+            var token = $('meta[name="csrf_token"]').attr('content');
+            if (token) {
+                  return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+            }
+        },
+        data: $('#formUpdate').serialize(),
+        success:function(data){
+            $('#propertyTable').html(data);  
+            $('#modalUpdateProperty').modal('hide');  
             $btnPublish.button('reset');            
             $('#modalSuccessfulPublish').modal('show');                    
         },error:function(data){ 
@@ -465,6 +517,7 @@ $('#formUpload').validator().on('submit', function (e) {
                 } else{
                     $btnUpload.button('reset');
                     $('#modalUploadProperty').modal('hide');
+                    $('#inputPicture').val('');
                     alert('Success!');
                 }
             },error:function(data){ 
