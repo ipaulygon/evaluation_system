@@ -291,6 +291,7 @@ Route::group(['middleware' => 'auth'], function(){
             'uses' => 'propertyController@request_appraisal',
             'as' => 'seller.request_appraisal'
         ));
+        Route::post('/change_password', 'sellerController@changePassword');
         Route::post('/get_property_details', 'propertyController@get_property_details');
         Route::post('/publish_property', 'sellerController@PublishProperty');
         Route::post('/update_property', 'sellerController@UpdateProperty');
