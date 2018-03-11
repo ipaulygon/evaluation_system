@@ -189,7 +189,12 @@
                         // Configuration options go here
                         options: {}
                     });
-                    $('#ranking').html('<label>Ranking: '+data.rank[0].rank+' out of '+data.all[0].total+'</label>')
+                   // $('#ranking').html('<label>Ranking: '+data.rank[0].rank+' out of '+data.all[0].total+'</label>')
+				   var rank = 0; 
+				   $.each(data.rank,function(key,value)
+				   {rank = (value.property==property?value.rank:rank);
+				   });
+				   $('#ranking').html('<label>Ranking:'+rank+'out of'+data.all[0].total+'</label>')
                 }
             })
         });

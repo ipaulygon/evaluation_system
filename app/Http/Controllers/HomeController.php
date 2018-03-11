@@ -76,7 +76,7 @@ class HomeController extends Controller
     }
 
     public function PropertyCount(Request $request){
-        $appraisal = Appraisal::where('id_property',$request->id)->first();
+       	$appraisal = Appraisal::where('id_property',$request->id)->where('ind_deleted',0)->orderBy('create_date','desc')->first();
         $sell = SellProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
         $sell->counter += 1;
         $sell->save();
@@ -130,14 +130,14 @@ class HomeController extends Controller
                 JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
                 JOIN tbl_property AS p ON a.id_property = p.id_property
                 JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
-                WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.id_property = "'.$request->property.'" AND p.property_status = 4
+                WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_status = 4
                 ORDER BY price DESC)
                 ) AS rank
             FROM tbl_sell_property AS sp
             JOIN tbl_appraisal AS a ON sp.id_appraisal = a.id_appraisal
             JOIN tbl_property AS p ON a.id_property = p.id_property
             JOIN tbl_property_location AS pl ON p.id_property_location = pl.id_property_location
-            WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.id_property = "'.$request->property.'" AND p.property_status = 4
+            WHERE p.ind_deleted=0 AND pl.id_barangay = "'.$request->barangay.'" AND p.property_status = 4
             ORDER BY price DESC
         '));
         $all = DB::select(DB::raw('
