@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use Carbon\Carbon;
+
 use Hash;
+use App\User;
 use App\Models\Seller;
 use App\Models\Property;
 use App\Models\Region;
@@ -217,5 +219,17 @@ class sellerController extends Controller
         $appraisal_property = AppraiseProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
         $sell_property = SellProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
         return response()->json(["<label>Appraisal Value: PhP ".number_format($appraisal_property->total_property_value,2)."</label>",$appraisal->id_appraisal,$sell_property]);
+    }
+
+    public function changePassword(Request $request){
+        $user = User::find(Auth::user()->id_user);
+        if (!is_null($user)){
+            $user->update_date = Carbon::now();
+            $user->password = Hash::make($request->strPassword);
+            $user->save();
+            return "success";
+        }else{
+            return "error";	
+        }
     }
 }

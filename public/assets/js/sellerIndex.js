@@ -438,6 +438,53 @@ $(document).on('click','.btnSoldProperty',function(e){
     })
 });
 
+$(document).on('click','.btnChangePassword',function(){
+    $('#modalChangePassword').modal('show');
+    $("#inputPasswordReset").val("");
+    $("#inputReEnterPasswordReset").val("");
+} );
+
+
+$('#formResetPassword').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+        // handle the invalid form...
+    } else {
+        /* 
+            for create appraiser loading state
+        */
+        var $btnResetPasswordSubmit = $('#btnChangePasswordSubmit');
+        $btnResetPasswordSubmit.button('loading');
+        /*
+            Submit data to the controller using ajax
+        */
+        var strPassword = $("#inputPasswordReset").val();
+        $.ajax({
+            url: "/change_password",
+            type:"POST",
+            beforeSend: function (xhr) {
+                var token = $('meta[name="csrf_token"]').attr('content');
+                if (token) {
+                      return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                }
+            },
+            data: {strPassword : strPassword},
+            success:function(data){
+                if(data == 'error'){
+                    $btnResetPasswordSubmit.button('reset');  
+                } else{
+                    $('#modalChangePassword').modal('hide');  
+                    $('#modalChangePasswordSuccess').modal('show');
+                    $btnResetPasswordSubmit.button('reset');
+                }
+                
+            },error:function(data){ 
+                alert("Error!");
+            }
+        });
+    }
+    return false;
+})
+
 $(document).on('change','#region',function(){
     $.ajax({
         type: "POST",
