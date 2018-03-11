@@ -33,7 +33,7 @@
                                 <label for="">Appraisal Details:</label>
                                 <ul>
                                 @foreach($appraisals as $appraisal)
-                                    <li>PhP {{number_format($appraisal->appraiseProperty->total_property_value,2)}} - {{date('F j, Y',strtotime($appraisal->appraiseProperty->create_date))}}</li>
+                                    <li>PhP {{number_format($appraisal->appraiseProperty->total_property_value,2)}} - {{date('F j, Y',strtotime($appraisal->appraiseProperty->create_date))}} By: {{$appraisal->property->seller->first_name}} {{$appraisal->property->seller->last_name}}</li>
                                 @endforeach
                                 </ul>
                             </div>
