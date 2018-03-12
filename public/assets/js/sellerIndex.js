@@ -408,6 +408,8 @@ $('#formUpdatePublish').validator().on('submit',function(e){
 $(document).on('click','.btnSoldProperty',function(e){
     e.preventDefault();
     var id = $(this).parent().parent().parent().find('.classPropertyPrimaryKey').text(); 
+    $(this).button('loading');
+    bootbox.hideAll();
     bootbox.confirm({ 
         size: "small",
         title: "<b>Mark property as sold?</b>",
@@ -429,10 +431,13 @@ $(document).on('click','.btnSoldProperty',function(e){
                     success:function(data){
                         $('#propertyTable').html(data);
                         $('#modalSuccessfulSold').modal('show');
+                        bootbox.hideAll();
                     },error:function(data){ 
                         alert("Error!");
                     }
                 });
+            }else{
+                $(this).button('reset');
             }
         }
     })
