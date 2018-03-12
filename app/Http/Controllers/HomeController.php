@@ -76,7 +76,7 @@ class HomeController extends Controller
     }
 
     public function PropertyCount(Request $request){
-        $appraisal = Appraisal::where('id_property',$request->id)->where('ind_deleted',0)->orderBy('create_date','desc')->first();
+       	$appraisal = Appraisal::where('id_property',$request->id)->where('ind_deleted',0)->orderBy('create_date','desc')->first();
         $sell = SellProperty::where('id_appraisal',$appraisal->id_appraisal)->first();
         $sell->counter += 1;
         $sell->save();

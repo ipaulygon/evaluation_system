@@ -45,9 +45,11 @@
                                 <button type="button" class="btn btn-sm btn-default btnViewProperty" data-toggle="modal" data-target="#modalViewProperty" title="View Property">
                                     VIEW
                                 </button>
+                                @if($property->property_status != 5)
                                 <button type="button" class="btn btn-sm btn-default btnUploadProperty" data-toggle="modal" data-target="#modalUploadProperty" title="Upload Property">
                                     UPLOAD
                                 </button>
+                                @endif
                                 @if($property->property_status == 0)
                                 <button type="button" class="btn btn-sm btn-default btnAppraiseProperty" data-toggle="tooltip" title="Appraise">
                                     APPRAISE
@@ -71,7 +73,7 @@
                                 <button type="button" class="btn btn-sm btn-default btnUpdatePublishProperty" data-toggle="modal" data-target="#modalUpdateProperty" title="Update">
                                     UPDATE
                                 </button>
-                                <button type="button" class="btn btn-sm btn-default btnSoldProperty" data-toggle="tooltip" title="Sold">
+                                <button type="button" class="btn btn-sm btn-default btnSoldProperty" title="Sold">
                                     SOLD
                                 </button>
                                 @endif
