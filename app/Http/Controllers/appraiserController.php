@@ -25,6 +25,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use PDF;
 
 class appraiserController extends Controller
 {
@@ -313,6 +314,13 @@ class appraiserController extends Controller
     public function viewAppraisal(Request $request){
         $appraiseproperty = AppraiseProperty::where('id_appraisal',$request->id)->first();
         return view('appraiser.appraised', ['appraiseproperty' => $appraiseproperty]);
+    }
+
+    public function printAppraisal($id){
+        $appraiseproperty = AppraiseProperty::where('id_appraisal',$id)->first();
+        PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadview('appraiser.print',compact('appraiseproperty'))->setPaper([0,0,612,792]);
+        return $pdf->stream('appraiser.pdf');
     }
     
     public function rejectAppraisal(Request $request){

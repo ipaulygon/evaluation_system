@@ -56,7 +56,7 @@
                                         REJECT
                                     </button>
                                 @elseif($appraisal->appraisal_status==2)
-                                    <a class="btn btn-sm btn-default btnShowAppraiseProperty" data-toggle="tooltip" title="View">
+                                    <a class="btn btn-sm btn-default btnShowAppraiseProperty" title="View">
                                         VIEW
                                     </a>
                                 @endif

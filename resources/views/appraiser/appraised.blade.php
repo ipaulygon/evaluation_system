@@ -140,7 +140,7 @@
                         </div>
                         <div class="box-footer">
                             <div class="col-md-6">
-                            <a href="javascript: window.print()" target="_blank" type="button" class="btn btn-block btn-flat btn-primary">
+                            <a href="{{url('/print_appraisal/'.$appraiseproperty->id_appraisal)}}" target="_blank" type="button" class="btn btn-block btn-flat btn-primary">
                                 <i class="fa fa-file"></i> Print PDF
                             </a>
                             </div>

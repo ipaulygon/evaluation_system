@@ -273,6 +273,7 @@ Route::group(['middleware' => 'auth'], function(){
         ));
         Route::post('/view_appraised_property','appraiserController@viewAppraisal');
         Route::post('/reject_property','appraiserController@rejectAppraisal');
+        Route::get('/print_appraisal/{id}','appraiserController@printAppraisal');
     });
     Route::group(['middleware'=>'seller'], function(){
         Route::get('/my_properties', array(
