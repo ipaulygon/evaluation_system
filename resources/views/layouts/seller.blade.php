@@ -52,6 +52,11 @@
                                             </p>
                                         </li>
                                         <li class="user-footer">
+                                            <div class="pull-left">
+                                                <button type="button" class="btn btn-default btn-flat btnChangePassword">
+                                                    Change Password
+                                                </button>
+                                            </div>
                                             <div class="pull-right">
                                                 <a href="{{URL::to('/logout')}}" class="btn btn-default btn-flat">Sign out</a>
                                             </div>
@@ -65,6 +70,69 @@
             </header>
             <div class="content-wrapper">
                 @yield('content')
+
+                <!-- MODAL RESET PASSWORD -->
+                <div class="modal fade" id="modalChangePassword" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Change password</h4>
+                            </div>
+
+                            <form role="form" data-toggle="validator" id="formResetPassword">
+                                <div class="modal-body">
+                                    <div class="box-body">
+                                        <div class="form-group col-sm-12"></div>
+                                        <div class="">
+                                            <div class="form-group col-sm-6">
+                                                <input type="password" class="form-control" id="inputPasswordReset" data-minlength="6" placeholder="Password" size="35" required>
+                                                <div class="help-block">Minimum of 6 characters</div>
+                                            </div>
+                                            <div class="form-group col-sm-6">
+                                                <input type="password" class="form-control" id="inputReEnterPasswordReset" data-minlength="6" placeholder="Confirm password" size="35" data-match="#inputPasswordReset" data-match-error="Whoops, these don't match" required>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button"  class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+                                    <span class="form-group">
+                                        <button type="submit" id="btnChangePasswordSubmit" class="btn btn-success">Change Password</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL RESET PASSWORD -->
+
+                <!-- MODAL SUCCESSFUL RESET -->
+                <div class="modal fade" id="modalChangePasswordSuccess" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Change password</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    <img class="img-responsive" src="assets/image/icons/successIcon.png" alt="Success Icon" width="20px" align="left">
+                                    &nbsp; Change password successful.
+                                </p>
+                                <div class="successMessage">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL SUCCESSFUL RESET -->
             </div>
             <footer class="main-footer" style="position:relative;bottom:0">
                 <div class="pull-right hidden-xs">

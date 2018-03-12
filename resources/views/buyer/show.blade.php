@@ -189,12 +189,20 @@
                         // Configuration options go here
                         options: {}
                     });
+<<<<<<< HEAD
                    // $('#ranking').html('<label>Ranking: '+data.rank[0].rank+' out of '+data.all[0].total+'</label>')
 				   var rank = 0; 
 				   $.each(data.rank,function(key,value)
 				   {rank = (value.property==property?value.rank:rank);
 				   });
 				   $('#ranking').html('<label>Ranking:'+rank+'out of'+data.all[0].total+'</label>')
+=======
+                    var rank = 0;
+                    $.each(data.rank, function(key,value){
+                        rank = (value.property==property ? value.rank : rank);
+                    });
+                    $('#ranking').html('<label>Ranking: '+rank+' out of '+data.all[0].total+'</label>')
+>>>>>>> 5f23e1b3bba70c1b6cb29732de7f51c4af444c0b
                 }
             })
         });
