@@ -48,7 +48,7 @@
                                     <th class="hide"></th>
                                     <th></th>
                                     <th>Name</th>
-                                    <th>Last signed-in</th>
+                                    <th>Date Added</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -67,11 +67,7 @@
                                             {{$appraiser->first_name}} {{$appraiser->last_name}}
                                         </td>
                                         <td class="lastSignedIn">
-                                            <?php
-                                            $dateLastSignedin = ($appraiser->last_signedin == "0000-00-00 00:00:00") ? "Never logged in" :
-                                                date('M j, Y',strtotime($appraiser->last_signedin));
-                                            ?>   
-                                            {{$dateLastSignedin}}
+                                            {{date('M j, Y',strtotime($appraiser->create_date))}}
                                         </td>
                                         <td width="150px">
                                             
